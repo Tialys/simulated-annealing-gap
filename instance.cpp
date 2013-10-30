@@ -56,3 +56,26 @@ Instance read(ifstream& instance_file) {
     }
     return instance;
 }
+
+void load(ifstream& instance_file, const char* file_name) {
+    instance_file.open(file_name);
+    
+    if(instance_file.is_open()) {
+        int nb_instances;
+        instance_file >> nb_instances;
+        cout << "Instance file containing " << nb_instances << " instances" << endl;
+
+        vector<Instance> instance;
+        for (int i=0; i < nb_instances; i++) {
+            cout << ">>>>>> Instance #" << i << endl;
+            Instance temp_instance = read(instance_file);
+            instance.push_back(temp_instance);
+            for (int j = 0; j < instance[i].nb_agents; j++) {
+                instance[i].agent[j].show();
+            }
+        }
+
+    } else {
+        cout << "Could not find file " << file_name << endl;
+    }   
+}

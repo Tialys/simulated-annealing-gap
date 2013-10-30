@@ -20,4 +20,6 @@ class Instance {
 
 Instance read(ifstream& instance_file);
 
+void load(ifstream& instance_file, const char* file_name);
+
 #endif

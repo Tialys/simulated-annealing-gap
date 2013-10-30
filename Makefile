@@ -8,8 +8,9 @@ LFLAGS = -Wall $(DEBUG)
 # Flags for compiling
 CFLAGS = -Wall -c $(DEBUG)
 
+SRC= src
 # sources are all the .cpp files
-SOURCES = $(shell ls *.cpp)
+SOURCES = $(shell ls $(SRC)/*.cpp)
 # objects are the respective .o files
 OBJECTS = $(SOURCES:.cpp=.o)
 EXECUTABLE = test
@@ -28,7 +29,7 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -fr *.o *~
+	rm -fr $(SRC)/*.o $(SRC)/*~
 
 mrproper:
-	rm -fr *.o *~ $(EXECUTABLE)
+	rm -fr $(SRC)/*.o $(SRC)/*~ $(EXECUTABLE)
