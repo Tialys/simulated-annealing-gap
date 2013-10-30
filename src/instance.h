@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include "agent.h"
+#include "task.h"
 using namespace std;
 
 class Instance {
@@ -13,9 +14,11 @@ class Instance {
         int nb_agents;
         int nb_tasks;
         vector<Agent> agent;
+        vector<Task> task;
         
         Instance(int nb_agents, int nb_tasks);
         void add(Agent agent);
+        void add(Task task);
 };
 
 Instance read(ifstream& instance_file);
