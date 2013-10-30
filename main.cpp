@@ -9,8 +9,8 @@ using namespace std;
 
 int main() {
     ifstream instance_file;
+
     instance_file.open("instances/gap1.txt");
-    
     
     if(instance_file.is_open()) {
         int nb_instances;
@@ -22,14 +22,13 @@ int main() {
             cout << ">>>>>> Instance #" << i << endl;
             Instance temp_instance = read(instance_file);
             instance.push_back(temp_instance);
+            for (int j = 0; j < instance[i].nb_agents; j++) {
+                instance[i].agent[j].show();
+            }
         }
 
-        //Instance instance1 = read(instance_file);
-        cout << "# of agents: " << instance[0].nb_agents << endl;
-        cout << "# of tasks: " << instance[0].nb_tasks << endl;
-
     } else {
-        cout << "Could not find instance" << endl;
+        cout << "Could not find file " << endl;
     }
     return 0;
 }
