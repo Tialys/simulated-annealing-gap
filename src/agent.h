@@ -17,6 +17,8 @@ class Agent {
         void task_assignment(bool assignment);
         double get_gain(int task);
         double get_weight(int task);
+        double get_max_capacity();
+        double get_gain_weight_ratio(int task);
         void show();
     private:
         int id;
