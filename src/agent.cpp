@@ -40,6 +40,14 @@ double Agent::get_weight(int task) {
     return weight[task];
 }
 
+double Agent::get_max_capacity() {
+    return max_capacity;
+}
+
+double Agent::get_gain_weight_ratio(int task){
+    return gain_weight_ratio[task];
+}
+
 void Agent::show() {
     cout << "Agent #" << id << endl;
     cout << "   Number of tasks: " << nb_tasks << endl;
@@ -58,7 +66,7 @@ void Agent::show() {
     for (int task = 0; task < nb_tasks; task++) {
         cout << gain_weight_ratio[task] << " ";
     }
-    
+
     cout << endl;
     cout << " " << endl;
 }
