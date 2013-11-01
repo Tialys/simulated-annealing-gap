@@ -11,12 +11,12 @@ void Instance::add(Task task) {
 Instance::Instance(int nb_agents, int nb_tasks) {
     this->nb_agents = nb_agents;
     this->nb_tasks = nb_tasks;
-    vector<Agent> agent;
-    this->agent = agent;
+    
     for (int i = 0; i < nb_agents; i++) {
         Agent agent = Agent(i, nb_tasks);
         add(agent);
     }
+   
     for (int i = 0; i < nb_tasks; i++) {
         Task task = Task(i, nb_agents);
         add(task);

@@ -3,15 +3,6 @@
 Agent::Agent(int id, int nb_tasks) {
     this->id = id;
     this->nb_tasks = nb_tasks;
-
-    map<int, double> gain;
-    this->gain = gain;
-
-    map<int, double> weight;
-    this->weight = weight;
-
-    vector<bool> tasks;
-    this->task = task;
 }
 
 void Agent::set_max_capacity(int max_capacity) {
@@ -48,8 +39,6 @@ double Agent::get_gain(int task) {
 double Agent::get_weight(int task) {
     return weight[task];
 }
-
-
 
 void Agent::show() {
     cout << "Agent #" << id << endl;
