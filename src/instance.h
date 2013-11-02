@@ -6,7 +6,6 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include <functional>
 #include "agent.h"
 #include "task.h"
 using namespace std;

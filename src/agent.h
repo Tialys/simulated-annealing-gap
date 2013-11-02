@@ -8,7 +8,6 @@
 using namespace std;
 
 class Agent {
-    typedef double (Agent::*WeightFunction)(int task);
     public:
         Agent(int id, int nb_tasks);
         void set_max_capacity(int max_capacity);
