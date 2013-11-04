@@ -45,8 +45,6 @@ double Task::get_weight(int agent) {
     return weight[agent];
 }
 
-
-
 void Task::show() {
     cout << "Task #" << id << endl;
     cout << "   Number of agents: " << nb_agents << endl;

@@ -31,8 +31,6 @@ int Instance::get_nb_tasks() {
     return nb_tasks;
 }
 
-void compute_gain_weight_ratio(Instance& instance) {
-}
 // Instance file format:
 // First line : m (agents) n (tasks)
 // Next m lines : gain for each task
@@ -53,6 +51,9 @@ Instance::Instance(ifstream& instance_file) {
     for (int i = 0; i < nb_tasks; i++) {
         Task task = Task(i, nb_agents);
         add(task);
+        for (int agentId = 0; agentId < nb_agents; agentId++) {
+            pair<Task, int> task_index(task, i);
+            this->agent[agentId].index(task_index);
     }
 
     cout << "read gain" << endl;
