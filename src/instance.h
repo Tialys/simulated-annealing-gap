@@ -8,6 +8,8 @@
 #include <map>
 #include "agent.h"
 #include "task.h"
+#include "weight_function.h"
+
 using namespace std;
 
 class Instance {
@@ -30,6 +32,7 @@ class Instance {
 };
 
 
-void load(ifstream& instance_file, const char* file_name);
+void load(ifstream& instance_file, const char* file_name,
+          WeightFunction weight_function);
 
 #endif

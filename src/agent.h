@@ -5,6 +5,8 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include "weight_function.h"
+
 using namespace std;
 
 class Agent {
@@ -23,11 +25,11 @@ class Agent {
         double get_max_capacity();
         double get_gain_weight_ratio(int task);
         double get_weight_max_capacity_ratio(int task);
+
+        int minimum_weight_task(WeightFunction weight_function);
+        double desirability(WeightFunction weight_function);
         
-        int minimum_weight_task();
-        double desirability();
-        
-        void show();
+        void show(WeightFunction weight_function);
     private:
         int id;
         int nb_tasks;

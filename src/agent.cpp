@@ -52,9 +52,24 @@ double Agent::get_weight_max_capacity_ratio(int task) {
     return weight[task] / max_capacity;
 }
 
-int Agent::minimum_weight_task() {
+int Agent::minimum_weight_task(WeightFunction weight_function) {
     int taskId = 0;
-    double min_weight = get_weight_max_capacity_ratio(taskId);
+    double min_weight;
+    switch(weight_function)
+    {
+        case Gain:
+            min_weight = get_gain(taskId);
+            break;
+        case Weight:
+            min_weight = get_weight(taskId);
+            break;
+        case WeightMaxCapacityRatio:
+            min_weight = get_weight_max_capacity_ratio(taskId);
+            break;
+        case MinusGainWeightRatio:
+            min_weight = - get_gain_weight_ratio(taskId);
+            break;
+    }
 
     for(int task = 1; task < nb_tasks; task++) {
         double current_weight = get_weight_max_capacity_ratio(task);
@@ -66,8 +81,8 @@ int Agent::minimum_weight_task() {
     return taskId;
 }
 
-double Agent::desirability() {
-    int min_weight_task = minimum_weight_task();
+double Agent::desirability(WeightFunction weight_function) {
+    int min_weight_task = minimum_weight_task(weight_function);
     double min_weight;
     
     if (min_weight_task == 0)
@@ -85,7 +100,7 @@ double Agent::desirability() {
     return min_weight - get_weight_max_capacity_ratio(min_weight_task);
 }
 
-void Agent::show() {
+void Agent::show(WeightFunction weight_function) {
     cout << "Agent #" << id << endl;
     cout << "   Number of tasks: " << nb_tasks << endl;
     cout << "   Maximum capacity: " << max_capacity << endl;
@@ -108,7 +123,7 @@ void Agent::show() {
     }
     cout << endl;
 
-    cout << "   Desirability: " << desirability() << endl;
+    cout << "   Desirability: " << desirability(weight_function) << endl;
 
     cout << " " << endl;
 }

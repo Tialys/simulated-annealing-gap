@@ -104,7 +104,8 @@ Instance::Instance(ifstream& instance_file) {
     }
 }
 
-void load(ifstream& instance_file, const char* file_name) {
+void load(ifstream& instance_file, const char* file_name,
+          WeightFunction weight_function) {
     instance_file.open(file_name);
     
     if(instance_file.is_open()) {
@@ -120,7 +121,7 @@ void load(ifstream& instance_file, const char* file_name) {
         for (int i=0; i < nb_instances; i++) {
             cout << ">>>>>> Instance #" << i << endl;
             for (int j = 0; j < instance[i].get_nb_agents(); j++) {
-                instance[i].agent[j].show();
+                instance[i].agent[j].show(weight_function);
             }
             for (int j = 0; j < instance[i].get_nb_tasks(); j++) {
                 instance[i].task[j].show();
