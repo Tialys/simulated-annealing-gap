@@ -1,0 +1,85 @@
+\documentclass{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[english]{algorithm2e}
+\usepackage{amssymb}
+
+
+\begin{document}
+\section{L'heuristique}
+
+L'heuristique proposée ordonne les taches selon un poid. Plusieur méthode pour calculer le poid sont proposées :
+\begin{itemize} \item $weight1 (agent,tache) = gain_{agent,tache}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que cela nous rapporte le plus possible.
+\item $weight2 (agent,tache) = ocupation_{agent, tache}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale.
+\item $weight3 (agent,tache) = \dfrac{ocupation_{agent,tache}}{capacity\_max_{agent}}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale, en considérant l'occupation absolue.
+\item $weight4 (agent,tache) = \dfrac{-gain_{agent,tache}}{ocupation_{agent,tache}}$
+
+Ce poid permet d'assigner une tache à un agent en considérant le ration gain/occupation.
+\end{itemize}
+
+Le principe de l'heuristique est de considérer la différence entre la plus petite et la seconde plus petite valeure de poid pour chaque tache. Les taches sont assignées suivant l'ordre décroissant de cette différence.
+Pour cela on calcule la désirabilité de chaque tache si on l'assigne à l'agent le plus intéressant.
+
+$desirability_{task} = \max\limits_{agent}\min\limits_{autre\_agent}(weight(autre\_agent,task) - weight(agent,task))$
+
+Ou encore :
+
+$desirability_{task} = \min\limits_{autre\_agent}weight(autre\_agent,task) - weight(agent_{task},task)$
+
+Avec :
+
+$agent_{task} = \operatorname*{arg\,min}\limits_{agent}weight(agent,task)$
+
+Seul les agents pour lesquelles rajouter la tache ne fait pas dépasser leur capacité maximale sont considérés.
+
+
+
+\fbox{\begin{algorithm}[H]
+\KwData{$Task$ L'ensemble des taches.}
+
+\Begin{
+\While {$Task \neq \varnothing$}
+{
+	\For {$task \in Task$}
+	{
+		$Agent_{task} = \varnothing$
+		\For {$agent \in Agent$}
+		{
+			\If{$ocupation_{agent,task} <= capacity\_max_{agent}$}
+			{
+				$Agent_{task} = Agent_{task} \cup \left\{agent\right\}$
+			}
+		}
+		$agent_{task} = \operatorname*{arg\,min}\limits_{agent \in Agent_{task}}weight(agent,task)$
+		$desirability_{task} = \min\limits_{autre\_agent \in Agent_{task}}weight(autre\_agent,task) - weight(agent_{task},task)$
+	}
+	$max\_desirability\_task = \operatorname*{arg\,max}\limits_{task \in Task}desirability_{task}$
+	$assign(max\_desirability\_task)$
+	$capacity\_max_{agent_{task}} = capacity\_max_{agent_{task}} - ocupation_{agent_{task},max\_desirability\_task}$
+	$J = J\setminus\left\{max\_desirability\_task\right\}$
+
+}
+
+}
+
+
+	 
+
+
+
+\end{algorithm}}
+
+
+
+
+\end{document}
+
