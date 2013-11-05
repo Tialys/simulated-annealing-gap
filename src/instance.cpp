@@ -1,34 +1,23 @@
 #include "instance.h"
 
-void Instance::add(Agent agent) {
-    this->agent.push_back(agent);
-}
-
-void Instance::add(Task task) {
-    this->task.push_back(task);
-}
-
-Instance::Instance(int nb_agents, int nb_tasks) {
-    this->nb_agents = nb_agents;
-    this->nb_tasks = nb_tasks;
-    
-    for (int i = 0; i < nb_agents; i++) {
-        Agent agent = Agent(i, nb_tasks);
-        add(agent);
-    }
-   
-    for (int i = 0; i < nb_tasks; i++) {
-        Task task = Task(i, nb_agents);
-        add(task);
-    }
-}
-
-int Instance::get_nb_agents() {
-    return nb_agents;
+int Instance::get_nb_agents(){
+    return nb_agents_;
 }
 
 int Instance::get_nb_tasks() {
-    return nb_tasks;
+    return nb_tasks_;
+}
+
+void Instance::initialise_possible_tasks() {
+    for (Agent agent : agent_) {
+        agent.initialise_possible_tasks(task_);
+    }
+}
+
+void Instance::compute_desirability(WeightFunction weight_function) {
+    for (Agent agent : agent_) {
+        agent.compute_desirability(weight_function); 
+    }   
 }
 
 // Instance file format:
@@ -36,100 +25,154 @@ int Instance::get_nb_tasks() {
 // Next m lines : gain for each task
 // Next m lines : weight for each task
 // Next line : capacity for each agent
+
 Instance::Instance(ifstream& instance_file) {
+    // vectors of length equal to the number of agents
+    // containing file instance information
+    vector<double> agent_max_capacity;
+    vector<double> agent_current_capacity;
+    vector<map<const Task, int>> agent_task_index;
+    vector<map<int, double>> agent_task_gain;
+    vector<map<int, double>> agent_task_weight;
     
     cout << "read metadata" << endl;
 
-    instance_file >> this->nb_agents;
-    instance_file >> this->nb_tasks;
+    instance_file >> nb_agents_;
+    instance_file >> nb_tasks_;
     
-    for (int i = 0; i < nb_agents; i++) {
-        Agent agent = Agent(i, nb_tasks);
-        add(agent);
+    for (int taskId = 0; taskId < nb_tasks_; taskId++) {
+        Task task = Task(taskId);
+        task_.push_back(task);
     }
-   
-    for (int i = 0; i < nb_tasks; i++) {
-        Task task = Task(i, nb_agents);
-        add(task);
-        for (int agentId = 0; agentId < nb_agents; agentId++) {
-            pair<Task, int> task_index(task, i);
-            this->agent[agentId].index(task_index);
+    
+    for (int agent = 0; agent < nb_agents_; agent++) {
+        map<const Task, int> task_index;
+        for (int taskId = 0; taskId < nb_tasks_; taskId++) {
+            pair<const Task, int> i((const Task) task_[taskId], taskId);
+            task_index.insert(i);
+        }
+        agent_task_index.push_back(task_index);
     }
-
+    
     cout << "read gain" << endl;
     // read gain
-    for (int agentId = 0; agentId < nb_agents; agentId++) {
-        for (int taskId = 0; taskId < nb_tasks; taskId++) {
-            cout << agentId << " " << taskId << endl;
+    for (int agent = 0; agent < nb_agents_; agent++) {
+        map<int, double> task_gain;
+        for (int taskId = 0; taskId < nb_tasks_; taskId++) {
             double gain;
             instance_file >> gain;
-            cout << gain << endl;
-            pair<int, double> p(taskId, gain);
-            pair<int, double> d(agentId, gain);
-
-            this->agent[agentId].task_gain(p);
-            this->task[taskId].agent_gain(d);
+            pair<int, double> g(taskId, gain);
+            task_gain.insert(g);
         }
+        agent_task_gain.push_back(task_gain);
     }
     
     cout << "read weight" << endl;
     // read weight
-    for (int agent = 0; agent < nb_agents; agent++) {
-        for (int task = 0; task < nb_tasks; task++) {
+    for (int agent = 0; agent < nb_agents_; agent++) {
+        map<int, double> task_weight;
+        for (int taskId = 0; taskId < nb_tasks_; taskId++) {
             double weight;
             instance_file >> weight;
-            pair<int, double> p(task, weight);
-            pair<int, double> d(agent, weight);
-
-            this->agent[agent].task_weight(p);
-            this->task[task].agent_weight(d);
+            pair<int, double> w(taskId, weight);
+            task_weight.insert(w);
         }
+        agent_task_weight.push_back(task_weight);
     }
 
     cout << "read max capacity" << endl;
     // read max capacity
-    for (int agent = 0; agent < nb_agents; agent++) {
-        int c;
-        instance_file >> c;
-        
-        this->agent[agent].set_max_capacity(c);
+    for (int agent = 0; agent < nb_agents_; agent++) {
+        double max_capacity;
+        instance_file >> max_capacity;
+        agent_max_capacity.push_back(max_capacity);
+        agent_current_capacity.push_back(max_capacity);
     }
 
-    cout << "compute gain weight ratio" << endl;
-    // compute gain weight ratio
-    for (int agent = 0; agent < nb_agents; agent++) {
-        this->agent[agent].compute_gain_weight_ratio();
-    }
-    for (int task = 0; task < nb_tasks; task++) {
-        this->task[task].compute_gain_weight_ratio();
+    for (int agentId = 0; agentId < nb_agents_; agentId++) {
+        Agent agent = Agent(
+                            agentId,
+                            agent_max_capacity[agentId],
+                            agent_current_capacity[agentId],
+                            agent_task_index[agentId],
+                            agent_task_gain[agentId],
+                            agent_task_weight[agentId]
+                           );
+        agent_.push_back(agent);
     }
 }
 
-void load(ifstream& instance_file, const char* file_name,
-          WeightFunction weight_function) {
-    instance_file.open(file_name);
-    
-    if(instance_file.is_open()) {
-        int nb_instances;
-        instance_file >> nb_instances;
-        cout << "Instance file containing " << nb_instances << " instances" << endl;
-
-        vector<Instance> instance;
-        for (int i=0; i < nb_instances; i++) {
-            Instance temp_instance = Instance(instance_file);
-            instance.push_back(temp_instance);
+void Instance::show_tasks() {
+    for (int task = 0; task < nb_tasks_; task++) {
+        cout << "Task #" << task << endl;
+        cout << "   Number of agents: " << nb_agents_ << endl;
+        
+        cout << "   Gain per agent: " << endl;
+        for (int id = 0; id < nb_agents_; id++) {
+            cout << agent_[id].get_gain(task) << " ";
         }
-        for (int i=0; i < nb_instances; i++) {
-            cout << ">>>>>> Instance #" << i << endl;
-            for (int j = 0; j < instance[i].get_nb_agents(); j++) {
-                instance[i].agent[j].show(weight_function);
-            }
-            for (int j = 0; j < instance[i].get_nb_tasks(); j++) {
-                instance[i].task[j].show();
-            }
+        cout << endl;
+        
+        cout << "   Weight per agent: " << endl;
+        for (int id = 0; id < nb_agents_; id++) {
+            cout << agent_[id].get_weight(task) << " ";
         }
+        cout << endl;
+        
+        cout << "   Gain/weight per agent: " << endl;
+        for (int id = 0; id < nb_agents_; id++) {
+            cout << agent_[id].get_gain_weight_ratio(task) << " ";
+        }
+        cout << endl;
+        
+        cout << " " << endl;
+    }
+}
 
-    } else {
-        cout << "Could not find file " << file_name << endl;
-    }   
+void Instance::show_agents() {
+    for (int id = 0; id < nb_agents_; id++) {
+        cout << "Agent #" << id << endl;
+        cout << "   Number of tasks: " << nb_tasks_ << endl;
+        cout << "   Maximum capacity: " << agent_[id].get_max_capacity() << endl;
+        
+        cout << "   Gain per task: " << endl;
+        for (int task = 0; task < nb_tasks_; task++) {
+            cout << agent_[id].get_gain(task) << " ";
+        }
+        cout << endl;
+        
+        cout << "   Weight per task: " << endl;
+        for (int task = 0; task < nb_tasks_; task++) {
+            cout << agent_[id].get_weight(task) << " ";
+        }
+        cout << endl;
+        
+        cout << "   Gain/weight per task: " << endl;
+        for (int task = 0; task < nb_tasks_; task++) {
+            cout << agent_[id].get_gain_weight_ratio(task) << " ";
+        }
+        cout << endl;
+
+        //desirability(weight_function);
+        //cout << "   Desirability: " << get_desirability() << endl;
+
+        cout << " " << endl;
+    }
+}
+
+void load(ifstream& instance_file, vector<Instance> & instance) {
+    int nb_instances;
+
+    instance_file >> nb_instances;
+    cout << "Instance file containing " << nb_instances << " instances" << endl;
+
+    for (int i=0; i < nb_instances; i++) {
+        Instance temp_instance = Instance(instance_file);
+        instance.push_back(temp_instance);
+
+        cout << ">>>>>> Instance #" << i << endl;
+        instance[i].show_agents();
+        instance[i].show_tasks();
+    }
+    cout << "I did my best mommy" << endl;
 }

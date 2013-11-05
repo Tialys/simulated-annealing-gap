@@ -4,9 +4,9 @@ CC = g++
 #DEBUG = -g
 DEBUG =
 # Flags for linking
-LFLAGS = -Wall $(DEBUG)
+LFLAGS = -Wall -std=c++11 $(DEBUG)
 # Flags for compiling
-CFLAGS = -Wall -c $(DEBUG)
+CFLAGS = -Wall -std=c++11 -c $(DEBUG)
 
 SRC= src
 # sources are all the .cpp files
@@ -27,6 +27,15 @@ $(EXECUTABLE): $(OBJECTS)
 # $<: first dependency (here, only one, a .cpp)
 %.o: %.cpp
 	$(CC) $(CFLAGS) $< -o $@
+
+task: src/task.cpp
+	$(CC) $(CFLAGS) $< -o src/$@.o
+
+agent: src/agent.cpp
+	$(CC) $(CFLAGS) $< -o src/$@.o
+
+instance: src/instance.cpp
+	$(CC) $(CFLAGS) $< -o src/$@.o
 
 clean:
 	rm -fr $(SRC)/*.o $(SRC)/*~

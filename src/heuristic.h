@@ -3,15 +3,14 @@
 
 #include "instance.h"
 #include "weight_function.h"
-using namespace std;
 
 class Heuristic {
     private:
-        Instance instance;
+        Instance instance_;
     public:
-        Heuristic(&Instance instance);
-        int find_max_desirability_job();
-        void assign(int max_desirability_job);
+        Heuristic(Instance instance, WeightFunction weight_function);
+//        int find_max_desirability_job();
+//        void assign(int max_desirability_job);
 };
 
 class Solution {

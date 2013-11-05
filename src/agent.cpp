@@ -1,200 +1,210 @@
 #include "agent.h"
 
-Agent::Agent(int id, int nb_tasks) {
-    this->id = id;
-    this->nb_tasks = nb_tasks;
-}
-
-void Agent::set_max_capacity(int max_capacity) {
-    this->max_capacity = max_capacity;
-}
-
-void Agent::set_current_capacity(int current_capacity) {
-    this->current_capacity = current_capacity;
-}
-
-void Agent::task_gain(pair<int, double> gain_taskId) {
-    gain.insert(gain_taskId);
-}
-
-void Agent::task_weight(pair<int, double> weight_taskId) {
-    weight.insert(weight_taskId);
-}
-
-void Agent::compute_gain_weight_ratio() {
-    int g_size = gain.size();
-    int w_size = weight.size();
-    if (g_size == nb_tasks && w_size == nb_tasks) {
-        for (int task = 0; task < nb_tasks; task++) {
-            pair<int, double> p(task, gain[task] / weight[task]);
-            gain_weight_ratio.insert(p);
-        }
-    }
-}
-
-void Agent::initialise_possible_tasks(vector<Task> task) {
-    for (id = 0; id < nb_tasks; id++) {
-        if (get_gain(id) < max_capacity) {
-            Task possible_task = Task(id, 0);
-            possible_tasks.push_back(possible_task);
-        }
-    }
-}
-
-void Agent::update_possible_tasks(double current_capacity) {
-    for (id = 0; id < (int) possible_tasks.size(); id++) {
-        if (get_gain(id) < current_capacity)
-            possible_tasks.erase(possible_tasks.begin() + id);
-    }
+/*
+ * Constructor
+ * args: 
+ * returns: partially initialised Agent, does not compute desirability,
+ *          minimum weight task, possible tasks.
+ */
+Agent::Agent(int id,
+             double max_capacity,
+             double current_capacity,
+             map<const Task, int>  index,
+             map<int, double> gain,
+             map<int, double>  weight)
+            :
+             id_(id),
+             max_capacity_(max_capacity),
+             current_capacity_(current_capacity),
+             index_(index),
+             gain_(gain),
+             weight_(weight)
+{
+    vector<Task> possible_tasks;
+    possible_tasks_ = possible_tasks;
 }
 
 double Agent::get_gain(int task) {
-    return gain[task];
+    return gain_[task];
 }
 
 double Agent::get_weight(int task) {
-    return weight[task];
-}
-
-double Agent::get_max_capacity() {
-    return max_capacity;
+    return weight_[task];
 }
 
 double Agent::get_desirability() {
-    return current_desirability;
+    return desirability_;
 }
 
-double Agent::get_gain_weight_ratio(int task){
-    return gain_weight_ratio[task];
+double Agent::get_gain_weight_ratio(int task) {
+    return gain_[task] / weight_[task];
 }
 
 double Agent::get_weight_max_capacity_ratio(int task) {
-    return weight[task] / max_capacity;
+    return weight_[task] / max_capacity_;
+}
+
+void Agent::initialise_possible_tasks(vector<Task> task) {
+    for (Task t : task) {
+        if (get_weight(index_[t]) <= max_capacity_)
+            possible_tasks_.push_back(t);
+    }
+}
+
+void Agent::remove_impossible_tasks() {
+    for (Task t : possible_tasks_) {
+        if (get_weight(index_[t]) > max_capacity_)
+            possible_tasks_.push_back(t);
+    }
 }
 
 void Agent::find_min_weight_task(WeightFunction weight_function) {
+    vector<Task>::iterator it = possible_tasks_.begin();
     double min_weight;
     int min_weight_task;
     
     switch(weight_function)
     {   
         case Gain:
-            min_weight = get_gain(0);
-            for (int taskId = 1; taskId < (int) possible_tasks.size(); taskId++) {
-                if (get_gain(taskId) < min_weight) {
-                    min_weight = get_gain(taskId);
-                    min_weight_task = taskId;
+            min_weight_task = possible_tasks_[0].get_id();
+            min_weight = get_gain(min_weight_task);
+            for (Task t : possible_tasks_)
+            {
+                int current_task = t.get_id();
+                double current_weight = get_gain(current_task);
+                if (current_weight < min_weight) {
+                    min_weight_task = current_task;
+                    min_weight = current_weight;
                 }
             }
             break;
         case Weight:
-            min_weight = get_weight(0);
-            for (int taskId = 1; taskId < (int) possible_tasks.size(); taskId++) {
-                if (get_weight(taskId) < min_weight) {
-                    min_weight = get_weight(taskId);
-                    min_weight_task = taskId;
+            min_weight_task = possible_tasks_[0].get_id();
+            min_weight = get_weight(min_weight_task);
+            for (Task t : possible_tasks_)
+            {
+                int current_task = t.get_id();
+                double current_weight = get_weight(current_task);
+                if (current_weight < min_weight) {
+                    min_weight_task = current_task;
+                    min_weight = current_weight;
                 }
             }
             break;
         case WeightMaxCapacityRatio:
-            min_weight = get_weight_max_capacity_ratio(0);
-            for (int taskId = 1; taskId < (int) possible_tasks.size(); taskId++) {
-                if (get_weight_max_capacity_ratio(taskId) < min_weight) {
-                    min_weight = get_weight_max_capacity_ratio(taskId);
-                    min_weight_task = taskId;
+            min_weight_task = possible_tasks_[0].get_id();
+            min_weight = get_weight_max_capacity_ratio(min_weight_task);
+            for (Task t : possible_tasks_)
+            {
+                int current_task = t.get_id();
+                double current_weight = get_weight_max_capacity_ratio(current_task);
+                if (current_weight < min_weight) {
+                    min_weight_task = current_task;
+                    min_weight = current_weight;
                 }
             }
             break;
         case MinusGainWeightRatio:
-            min_weight = - get_gain_weight_ratio(0);
-            for (int taskId = 1; taskId < (int) possible_tasks.size(); taskId++) {
-                if (- get_gain_weight_ratio(taskId) < min_weight) {
-                    min_weight = - get_gain_weight_ratio(taskId);
-                    min_weight_task = taskId;
+            min_weight_task = possible_tasks_[0].get_id();
+            min_weight = get_gain_weight_ratio(min_weight_task);
+            for (Task t : possible_tasks_)
+            {
+                int current_task = t.get_id();
+                double current_weight = get_gain_weight_ratio(current_task);
+                if (current_weight < min_weight) {
+                    min_weight_task = current_task;
+                    min_weight = current_weight;
                 }
             }
             break;
     }
-    this->min_weight_task = min_weight_task;
+    min_weight_task_ = min_weight_task;
 }
 
-void Agent::desirability(WeightFunction weight_function) {
-    int min_weight_task = find_min_weight_task(weight_function);
+Task Agent::get_min_weight_task(WeightFunction weight_function) {
+    find_min_weight_task(weight_function);
+    for (Task t : possible_tasks_) {
+        if (index_[t] == min_weight_task_.get_id()) {
+            return t;
+        }
+    }
+    return possible_tasks_[0];
+}
+
+void Agent::compute_desirability(WeightFunction weight_function) {
+    Task min_weight_task = get_min_weight_task(weight_function);
+
     double min_weight;
     double desirability;
-    vector<Task>::iterator it = possible_tasks.begin();
-    vector<Task>::iterator it_min_weight_task = possible_tasks.begin() + min_weight_task;
+    
     switch(weight_function)
     {
-        case Gain:
-            min_weight = get_gain(0);
-            for (; it != possible_tasks.end() && it != it_min_weight_task ; it++) {
-                taskId = it - possible_tasks.begin();
-                current_desirability = get_gain(taskId)
-                                     - get_gain(min_weight_task);
+    case Gain:
+        min_weight = get_gain(min_weight_task.get_id());
+        if (possible_tasks_[0] != min_weight_task)
+            desirability = get_gain(index_[possible_tasks_[0]]) - min_weight;
+        else
+            desirability = get_gain(index_[possible_tasks_[1]]) - min_weight;
+        for (Task t : possible_tasks_) {
+            if (t != min_weight_task) {
+                double current_desirability = get_gain(t.get_id()) - min_weight;
                 if (current_desirability < desirability)
                     desirability = current_desirability;
             }
-            break;
-        case Weight:
-            min_weight = get_weight(0);
-            for (; it != possible_tasks.end() && it != it_min_weight_task ; it++) {
-                taskId = it - possible_tasks.begin();
-                current_desirability = get_weight(taskId)
-                                     - get_weight(min_weight_task);
+        }
+        break;
+    case Weight:
+        min_weight = get_weight(min_weight_task.get_id());
+        if (possible_tasks_[0] != min_weight_task)
+            desirability = get_weight(index_[possible_tasks_[0]]) - min_weight;
+        else
+            desirability = get_weight(index_[possible_tasks_[1]]) - min_weight;
+        for (Task t : possible_tasks_) {
+            if (t != min_weight_task) {
+                double current_desirability = get_weight(t.get_id()) - min_weight;
                 if (current_desirability < desirability)
                     desirability = current_desirability;
             }
-            break;
-        case WeightMaxCapacityRatio:
-            min_weight = get_weight_max_capacity_ratio(it->first);
-            for (; it != possible_tasks.end() && it != it_min_weight_task ; it++) {
-                taskId = it - possible_tasks.begin();
-                current_desirability = get_weight_max_capacity_ratio(taskId)
-                                     - get_weight_max_capacity_ratio(min_weight_task);
+        }
+        break;
+    case WeightMaxCapacityRatio:
+        min_weight = get_weight_max_capacity_ratio(min_weight_task.get_id());
+        if (possible_tasks_[0] != min_weight_task)
+            desirability = get_weight_max_capacity_ratio(index_[possible_tasks_[0]])
+                         - min_weight;
+        else
+            desirability = get_weight_max_capacity_ratio(index_[possible_tasks_[1]])
+                         - min_weight;
+        for (Task t : possible_tasks_) {
+            if (t != min_weight_task) {
+                double current_desirability = get_weight_max_capacity_ratio(t.get_id())
+                                            - min_weight;
                 if (current_desirability < desirability)
                     desirability = current_desirability;
             }
-            break;
-        case MinusGainWeightRatio:
-            min_weight = get_gain_weight_ratio(it->first);
-            for (; it != possible_tasks.end() && it != it_min_weight_task ; it++) {
-                taskId = it - possible_tasks.begin();
-                current_desirability = get_gain_weight_ratio(taskId)
-                                     - get_gain_weight_ratio(min_weight_task);
+        }
+        break;
+    case MinusGainWeightRatio:
+        min_weight = get_gain_weight_ratio(min_weight_task.get_id());
+        if (possible_tasks_[0] != min_weight_task)
+            desirability = get_gain_weight_ratio(index_[possible_tasks_[0]])
+                         - min_weight;
+        else
+            desirability = get_gain_weight_ratio(index_[possible_tasks_[1]])
+                         - min_weight;
+        for (Task t : possible_tasks_) {
+            if (t != min_weight_task) {
+                double current_desirability = get_gain_weight_ratio(t.get_id())
+                                            - min_weight;
                 if (current_desirability < desirability)
                     desirability = current_desirability;
             }
-            break;
+        }
+        break;
     }
-    this->current_desirability = desirability;
+    desirability_ = desirability;
 }
 
-void Agent::show(WeightFunction weight_function) {
-    cout << "Agent #" << id << endl;
-    cout << "   Number of tasks: " << nb_tasks << endl;
-    cout << "   Maximum capacity: " << max_capacity << endl;
-    
-    cout << "   Gain per task: " << endl;
-    for (int task = 0; task < nb_tasks; task++) {
-        cout << gain[task] << " ";
-    }
-    cout << endl;
-    
-    cout << "   Weight per task: " << endl;
-    for (int task = 0; task < nb_tasks; task++) {
-        cout << weight[task] << " ";
-    }
-    cout << endl;
-    
-    cout << "   Gain/weight per task: " << endl;
-    for (int task = 0; task < nb_tasks; task++) {
-        cout << gain_weight_ratio[task] << " ";
-    }
-    cout << endl;
-
-    desirability(weight_function);
-    //cout << "   Desirability: " << get_desirability() << endl;
-
-    cout << " " << endl;
+double Agent::get_max_capacity() {
+    return max_capacity_;
 }
