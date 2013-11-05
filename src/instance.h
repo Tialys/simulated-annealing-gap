@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 #include "agent.h"
-#include "task.h"
 #include "weight_function.h"
 
 using namespace std;
@@ -22,6 +21,8 @@ class Instance {
         void show_tasks();
 
         void initialise_possible_tasks();
+        void remove_impossible_tasks();
+        void show_possible_tasks();
         void compute_desirability(WeightFunction weight_function);
         //void find_min_weight_task(WeightFunction weight_function);
     private:
@@ -29,7 +30,7 @@ class Instance {
         int nb_tasks_;
         
         vector<Agent> agent_;
-        vector<Task> task_;
+        vector<int> task_;
 };
 
 void load(ifstream& instance_file, vector<Instance> & instance); 

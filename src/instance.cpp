@@ -14,6 +14,18 @@ void Instance::initialise_possible_tasks() {
     }
 }
 
+void Instance::remove_impossible_tasks() {
+    for (Agent agent : agent_) {
+        agent.remove_impossible_tasks();
+    }
+}
+
+void Instance::show_possible_tasks() {
+    for (Agent agent : agent_) {
+        agent.show_possible_tasks();
+    }
+}
+
 void Instance::compute_desirability(WeightFunction weight_function) {
     for (Agent agent : agent_) {
         agent.compute_desirability(weight_function); 
@@ -31,7 +43,6 @@ Instance::Instance(ifstream& instance_file) {
     // containing file instance information
     vector<double> agent_max_capacity;
     vector<double> agent_current_capacity;
-    vector<map<const Task, int>> agent_task_index;
     vector<map<int, double>> agent_task_gain;
     vector<map<int, double>> agent_task_weight;
     
@@ -41,17 +52,7 @@ Instance::Instance(ifstream& instance_file) {
     instance_file >> nb_tasks_;
     
     for (int taskId = 0; taskId < nb_tasks_; taskId++) {
-        Task task = Task(taskId);
-        task_.push_back(task);
-    }
-    
-    for (int agent = 0; agent < nb_agents_; agent++) {
-        map<const Task, int> task_index;
-        for (int taskId = 0; taskId < nb_tasks_; taskId++) {
-            pair<const Task, int> i((const Task) task_[taskId], taskId);
-            task_index.insert(i);
-        }
-        agent_task_index.push_back(task_index);
+        task_.push_back(taskId);
     }
     
     cout << "read gain" << endl;
@@ -94,7 +95,6 @@ Instance::Instance(ifstream& instance_file) {
                             agentId,
                             agent_max_capacity[agentId],
                             agent_current_capacity[agentId],
-                            agent_task_index[agentId],
                             agent_task_gain[agentId],
                             agent_task_weight[agentId]
                            );
