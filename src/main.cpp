@@ -7,42 +7,52 @@
 
 using namespace std;
 
+WeightFunction to_weight_function(const string & s) {
+    if (s == "Gain") return Gain;
+    if (s == "Weight") return Weight;
+    if (s == "WeightMaxCapacityRatio") return WeightMaxCapacityRatio;
+    if (s == "MinusGainWeightRatio") return MinusGainWeightRatio;
+    throw runtime_error("Maybe you mistyped the weight function you wanted?");
+}
 
-int main() {
-    ifstream instance_file;
-    const char file_name[] = "instances/gap9.txt";
-    instance_file.open(file_name);
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        cout << "Usage: " << argv[0] << " <file name> <weight function>" << endl;
+    } else {
+        ifstream instance_file;
+        instance_file.open(argv[1]);
 
-    if(instance_file.is_open()) {
-        vector<Heuristic> heuristic;
-        //WeightFunction weight_function = WeightMaxCapacityRatio;
-        WeightFunction weight_function = MinusGainWeightRatio;
-        vector<Instance> instance;
+        if(instance_file.is_open()) {
+            vector<Heuristic> heuristic;
 
-        load(instance_file, instance);
-        cout << int(instance.size()) << " instances loaded" << endl;
+            WeightFunction weight_function = to_weight_function(argv[2]);
+            vector<Instance> instance;
 
-        for (Instance & i : instance) {
-            Heuristic h = Heuristic(i, weight_function);
-            heuristic.push_back(h);
-        }
-        for (Heuristic & h : heuristic) {
-            //h.show_solution();
-            h.solve();
+            load(instance_file, instance);
+            cout << int(instance.size()) << " instances loaded" << endl;
 
-            //h.show_solution();
-            h.show_value();
-            //h.show_information();
-            cout << "Achieved in " << h.get_nb_iterations() << " iterations" << endl;
-
-            if (h.admissible_solution()) {
-                h.initialise_neighbourhood();
-                h.compute_neighbourhood_values();
-            } else {
-                cout << "               NON ADMISSIBLE SOLUTION" << endl;
+            for (Instance & i : instance) {
+                Heuristic h = Heuristic(i, weight_function);
+                heuristic.push_back(h);
             }
-        }
-    } 
+            for (Heuristic & h : heuristic) {
+                //h.show_solution();
+                h.solve();
+
+                //h.show_solution();
+                h.show_value();
+                //h.show_information();
+                cout << "Achieved in " << h.get_nb_iterations() << " iterations" << endl;
+
+                if (h.admissible_solution()) {
+                    h.initialise_neighbourhood();
+                    h.compute_neighbourhood_values();
+                } else {
+                    cout << "               NON ADMISSIBLE SOLUTION" << endl;
+                }
+            }
+        } 
+    }
     return 0;
 }
 
