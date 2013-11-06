@@ -23,6 +23,10 @@ Agent::Agent(int id,
     int min_weight_task_;
 }
 
+int Agent::get_id() {
+    return id_;
+}
+
 double Agent::get_gain(int task) {
     return gain_[task];
 }
@@ -56,10 +60,6 @@ void Agent::initialise_possible_tasks(vector<int> task) {
         if (get_weight(t) <= max_capacity_)
             possible_tasks_.emplace_back(t);
     }
-    for (int t : possible_tasks_) {
-        cout << t << " ";
-    }
-    cout << endl;
 }
 
 void Agent::remove_impossible_tasks() {
@@ -99,11 +99,6 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
         case Weight:
             min_weight_task = possible_tasks_[0];
             min_weight = get_weight(min_weight_task);
-
-            cout << "min weight task " << min_weight_task
-                 << " of weight " << min_weight
-                 << endl;
-
             for (int t : possible_tasks_)
             {
                 double current_weight = get_weight(t);
@@ -112,6 +107,10 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
                     min_weight = current_weight;
                 }
             }
+            cout << "Agent #" << id_ << endl;
+            cout << "    minimum weight task #" << min_weight_task
+                 << " of weight " << min_weight
+                 << endl;
             break;
         case WeightMaxCapacityRatio:
             min_weight_task = possible_tasks_[0];
@@ -141,12 +140,13 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
     min_weight_task_ = min_weight_task;
 }
 
-int Agent::get_min_weight_task(WeightFunction weight_function) {
+int Agent::get_min_weight_task() {
     return min_weight_task_;
 }
 
 void Agent::compute_desirability(WeightFunction weight_function) {
-    int min_weight_task = get_min_weight_task(weight_function);
+    find_min_weight_task(weight_function);
+    int min_weight_task = get_min_weight_task();
 
     double min_weight;
     double desirability;
@@ -169,9 +169,6 @@ void Agent::compute_desirability(WeightFunction weight_function) {
         break;
     case Weight:
         min_weight = get_weight(min_weight_task);
-
-        cout << "min weight " << min_weight << endl;
-        
         if (possible_tasks_[0] != min_weight_task)
             desirability = get_weight(possible_tasks_[0]) - min_weight;
         else

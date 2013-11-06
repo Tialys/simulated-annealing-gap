@@ -10,27 +10,24 @@ using namespace std;
 
 int main() {
     ifstream instance_file;
-    const char file_name[] = "instances/gap1.txt";
+    const char file_name[] = "instances/gap12.txt";
     instance_file.open(file_name);
 
     if(instance_file.is_open()) {
+        vector<Heuristic> heuristic;
+        WeightFunction weight_function = Weight;
         vector<Instance> instance;
+
         load(instance_file, instance);
+        cout << int(instance.size()) << " instances loaded" << endl;
+        
+        for (Instance & i : instance) {
+            Heuristic h = Heuristic(i, weight_function);
+            heuristic.push_back(h);
+        }
 
-        cout << "no instance ?" << endl;
-        if (instance.empty() == true)
-            cout << "yep, it's empty" << endl;
-        else
-            cout << "no, there is at least one" << endl;
-
-        instance[0].initialise_possible_tasks();
-        instance[0].show_possible_tasks();
-        instance[0].remove_impossible_tasks();
-        instance[0].show_possible_tasks();
-        instance[0].compute_desirability(Weight);
-
-        if (instance.empty() != 0) {
-            Heuristic heuristic_weight = Heuristic(instance[0], Weight);
+        for (Heuristic & h : heuristic) {
+            h.assign();
         }
     } 
     return 0;

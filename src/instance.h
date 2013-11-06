@@ -24,6 +24,10 @@ class Instance {
         void remove_impossible_tasks();
         void show_possible_tasks();
         void compute_desirability(WeightFunction weight_function);
+        void show_desirability();
+        int max_desirability_agent();
+        void assign();
+
         //void find_min_weight_task(WeightFunction weight_function);
     private:
         int nb_agents_;

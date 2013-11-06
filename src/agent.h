@@ -25,11 +25,12 @@ class Agent {
         double get_gain_weight_ratio(int task) ;
         double get_weight_max_capacity_ratio(int task) ;
 
+        int get_id();
         double get_max_capacity() ;
         double get_current_capacity() ;
 
         double get_desirability() ;
-        int get_min_weight_task(WeightFunction weight_function) ;
+        int get_min_weight_task() ;
 
         void initialise_possible_tasks(vector<int> task);
         void show_possible_tasks();

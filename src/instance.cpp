@@ -9,27 +9,54 @@ int Instance::get_nb_tasks() {
 }
 
 void Instance::initialise_possible_tasks() {
-    for (Agent agent : agent_) {
+    for (Agent & agent : agent_) {
         agent.initialise_possible_tasks(task_);
     }
 }
 
 void Instance::remove_impossible_tasks() {
-    for (Agent agent : agent_) {
+    for (Agent & agent : agent_) {
         agent.remove_impossible_tasks();
     }
 }
 
 void Instance::show_possible_tasks() {
-    for (Agent agent : agent_) {
+    for (Agent & agent : agent_) {
         agent.show_possible_tasks();
     }
 }
 
 void Instance::compute_desirability(WeightFunction weight_function) {
-    for (Agent agent : agent_) {
+    for (Agent & agent : agent_) {
         agent.compute_desirability(weight_function); 
     }   
+}
+
+void Instance::show_desirability() {
+    for (Agent & agent : agent_) {
+        cout << "Agent #" << agent.get_id() << endl;
+        cout << "    Desirability: "  << agent.get_desirability() << endl;
+    }
+}
+
+int Instance::max_desirability_agent() {
+    double max_desirability = agent_[0].get_desirability();
+    int max_desirability_agent = 0;
+
+    for (Agent & agent : agent_) {
+        double current_desirability = agent.get_desirability(); 
+        if (current_desirability > max_desirability) {
+            max_desirability = current_desirability;
+            max_desirability_agent = agent.get_id(); 
+        }
+    }
+    return max_desirability_agent;
+}
+
+void Instance::assign() {
+    int agent = max_desirability_agent();
+    int task = agent_[agent].get_min_weight_task();
+    cout << "ASSIGNMENT OF TASK #" << task << " TO AGENT #" << agent << endl;
 }
 
 // Instance file format:
@@ -152,10 +179,7 @@ void Instance::show_agents() {
             cout << agent_[id].get_gain_weight_ratio(task) << " ";
         }
         cout << endl;
-
-        //desirability(weight_function);
-        //cout << "   Desirability: " << get_desirability() << endl;
-
+        
         cout << " " << endl;
     }
 }
@@ -174,5 +198,4 @@ void load(ifstream& instance_file, vector<Instance> & instance) {
         instance[i].show_agents();
         instance[i].show_tasks();
     }
-    cout << "I did my best mommy" << endl;
 }

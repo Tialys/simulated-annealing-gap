@@ -1,6 +1,7 @@
 #ifndef HEURISTIC_H_INCLUDED
 #define HEURISTIC_H_INCLUDED
 
+#include <iostream>
 #include "instance.h"
 #include "weight_function.h"
 
@@ -8,9 +9,8 @@ class Heuristic {
     private:
         Instance instance_;
     public:
-        Heuristic(Instance instance, WeightFunction weight_function);
-//        int find_max_desirability_job();
-//        void assign(int max_desirability_job);
+        Heuristic(Instance & instance, WeightFunction weight_function);
+        void assign();
 };
 
 class Solution {
