@@ -2,7 +2,7 @@
 
 /*
  * Constructor
- * args: 
+ * args:
  * returns: partially initialised Agent, does not compute desirability,
  *          minimum weight task, possible tasks.
  */
@@ -93,7 +93,7 @@ void Agent::remove_impossible_tasks() {
     vector<int>::iterator it = possible_tasks_.begin();
     while (it != possible_tasks_.end()) {
         double current_weight = get_weight(*it);
-        if (current_weight > current_capacity_) 
+        if (current_weight > current_capacity_)
             possible_tasks_.erase(it);
         else
             it++;
@@ -133,7 +133,7 @@ void Agent::show_solution() {
     cout << "    Possible tasks:" << endl;
     cout << "    ";
     for (int t : possible_tasks_) {
-        cout << t << " "; 
+        cout << t << " ";
     }
     cout << endl;
     cout << "    ";
@@ -151,8 +151,8 @@ void Agent::show_solution() {
         cout << endl << "    ";
     }
     cout << endl;
-    cout << "    Total weight: " << total_weight 
-                                << " (" << current_capacity_ << "/" 
+    cout << "    Total weight: " << total_weight
+                                << " (" << current_capacity_ << "/"
                                         << max_capacity_ << ")" << endl;
     cout << "    Total gain: " << total_gain << endl;
 }
@@ -160,9 +160,9 @@ void Agent::show_solution() {
 void Agent::find_min_weight_task(WeightFunction weight_function) {
     double min_weight;
     int min_weight_task;
-    
+
     switch(weight_function)
-    {   
+    {
         case Gain:
             min_weight_task = possible_tasks_[0];
             min_weight = get_gain(min_weight_task);
@@ -239,7 +239,7 @@ void Agent::compute_desirability(WeightFunction weight_function) {
 
     double min_weight;
     double desirability;
-    
+
     switch(weight_function)
     {
     case Gain:
