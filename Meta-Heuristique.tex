@@ -72,13 +72,55 @@ Seul les agents pour lesquelles rajouter la tache ne fait pas dépasser leur cap
 }
 
 
-	 
-
-
-
 \end{algorithm}}
 
 
+La fonction assign permet de remplir les variables d'affecation $x_{i,j}$ en la mettant à 1 pour la tache ayant la désirabilité maximum et l'agent qui va avec cette tache. Elle met cette variable à 0 pour toute les autres taches associées avec ce même agent.
+L'algorithme s'arrète quand toute les taches ont été affectées. Si il n'y a plus d'agent ayant une capacité suffisante pour les taches restantes, l'algorithme ne trouve pas de solution admissible.
+
+\section{Les voisinnages}
+
+Etant donné un solution $x_{i,j}\in\left\{0,1\right\}$, on peut considérer les solutions x' correspondant à assigner une tache à un autre agent que celui auquel elle est assigné. On a $(nb\_agent-1)*nb\_tache$ solution voisine. Toute les solutions obtenuent ne seront pas admissible, car un agent ayant déja atteint sa capacité maximal d'occupation se verra assigner une nouvelle tache.
+
+
+
+Si on considère X la matrice des $x_{i,j}$, les X' obtenuent par permution des lignes de X forme un voisinage. Cela reviens à échanger toutes les taches effectuées par deux agents. Toute les solutions obtenuent ne seront pas réalisable mais sauf dans des cas très particuliés, c'est a dire des instances dont il n'existe que très peu de solution réalisable de base, il devrait y avoir des solutions réalisables dans ce voisinage.
+
+
+
+Une autre idée de voisinage est de choisir une tache $j_{1}$, puis de chercher l'agent $i_{2}$ pour lequel le poid $weight(i_{2},j_{1})$ est minimum. Si l'agent $i_{2}$ est différent de celui auquel la tache est affectée $i_{1}$, chercher la tache $j_{2}$ parmis les taches effectuées par l'agent $i_{2}$ pour lequel le poid $weight(i_{1},j_{2})$ est minimum. Puis echanger $j_{1}$ et $j_{2}$.
+Cela revient à échanger deux taches en prenant en compte la désirabilité pour choisir l'agent qui effectura la première tache, et pour choisir la seconde tache avec laquelle la première tache sera échangée.
+
+
+
+\section{Exemple de voisinage}
+
+Voici l'instance utiliser pour les exemples de voisinage :
+
+Nombre d'agent : 3
+Nombre de tache : 6
+Agent \#1
+Capacité d'occupation maximal : 12
+Gain par tache : 		5	7	7	6	8	5
+Occupation par tache :	2	5	5	7	2	5
+
+Agent \#2
+Capacité d'occupation maximal : 11
+Gain par tache : 		7	5	7	5	5	5
+Occupation par tache :	5	2	7	7	3	3
+
+Agent \#3
+Capacité d'occupation maximal : 10
+Gain par tache : 		5	6	5	7	7	5
+Occupation par tache :	7	6	2	7	8	3
+
+Solution réalisable de départ :
+
+$x = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&1&0&0&0&1 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
 
 
 \end{document}
