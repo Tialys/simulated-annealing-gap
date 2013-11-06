@@ -16,24 +16,26 @@ class Instance {
 
         int get_nb_agents();
         int get_nb_tasks();
-        int get_nb_possible_tasks();
         int get_nb_unassigned_tasks();
 
-        bool remaining_tasks();
-
+        void initialise_possible_tasks();
+        void compute_desirability(WeightFunction weight_function);
+        int max_desirability_agent();
+        void assign();
+        void remove_impossible_tasks();
+        
         void show_agents();
         void show_tasks();
 
-        void initialise_possible_tasks();
-        void remove_impossible_tasks();
         void show_possible_tasks();
-        void compute_desirability(WeightFunction weight_function);
         void show_desirability();
-        int max_desirability_agent();
-        void assign();
         void show_assignment();
+        void show_solution();
+        double value();
 
-        //void find_min_weight_task(WeightFunction weight_function);
+        bool remaining_tasks();
+        bool satisfies_assignment_constraint();
+        bool satisfies_capacity_constraint();
     private:
         int nb_agents_;
         int nb_tasks_;

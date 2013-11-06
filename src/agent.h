@@ -29,8 +29,6 @@ class Agent {
         double get_max_capacity() ;
         double get_current_capacity() ;
 
-        double get_desirability() ;
-        int get_min_weight_task() ;
 
         void initialise_possible_tasks(vector<int> task);
         void remove_impossible_tasks();
@@ -39,12 +37,19 @@ class Agent {
         
         void find_min_weight_task(WeightFunction weight_function);
         void compute_desirability(WeightFunction weight_function);
+        double get_desirability();
+        int get_min_weight_task();
 
         void assign(int task);
         void cross_out(int task);
         void show_assigned_tasks();
+        void show_solution();
+        double compute_value();
         
         void decrease_capacity(int weight);
+        
+        bool satisfies_capacity_constraint();
+        bool assigned_task(int task);
     private:
         int id_;
         
