@@ -45,16 +45,16 @@ Instance::Instance(ifstream& instance_file) {
     vector<double> agent_current_capacity;
     vector<map<int, double>> agent_task_gain;
     vector<map<int, double>> agent_task_weight;
-    
+
     //cout << "read metadata" << endl;
 
     instance_file >> nb_agents_;
     instance_file >> nb_tasks_;
-    
+
     for (int taskId = 0; taskId < nb_tasks_; taskId++) {
         task_.emplace_back(taskId);
     }
-    
+
     //cout << "read gain" << endl;
     // read gain
     for (int agent = 0; agent < nb_agents_; agent++) {
@@ -67,7 +67,7 @@ Instance::Instance(ifstream& instance_file) {
         }
         agent_task_gain.emplace_back(task_gain);
     }
-    
+
     //cout << "read weight" << endl;
     // read weight
     for (int agent = 0; agent < nb_agents_; agent++) {
@@ -135,7 +135,10 @@ int Instance::get_nb_tasks() {
 // VARIABLE
 int Instance::get_nb_unassigned_tasks() {
     int count = agent_[0].get_nb_unassigned_tasks();
-/*
+    for (Agent & a : agent_) {
+        count = count + a.get_nb_unassigned_tasks();
+    }
+ /*   cout << count << endl;
     bool equal = true;
     for (Agent & a : agent_) {
         equal &= (count == a.get_nb_unassigned_tasks());
@@ -161,11 +164,11 @@ void Instance::initialise_possible_tasks() {
 }
 
 // Compute desirability for every agent (called once per iteration)
-// - side effect: compute minimum weight task for every agent 
+// - side effect: compute minimum weight task for every agent
 void Instance::compute_desirability(WeightFunction weight_function) {
     for (Agent & agent : agent_) {
-        agent.compute_desirability(weight_function); 
-    }   
+        agent.compute_desirability(weight_function);
+    }
 }
 
 // Find maximum desirability agent (called once per iteration)
@@ -174,10 +177,10 @@ int Instance::max_desirability_agent() {
     int max_desirability_agent = 0;
 
     for (Agent & agent : agent_) {
-        double current_desirability = agent.get_desirability(); 
+        double current_desirability = agent.get_desirability();
         if (current_desirability > max_desirability) {
             max_desirability = current_desirability;
-            max_desirability_agent = agent.get_id(); 
+            max_desirability_agent = agent.get_id();
         }
     }
     return max_desirability_agent;
@@ -187,14 +190,14 @@ int Instance::max_desirability_agent() {
 void Instance::assign() {
     int agent = max_desirability_agent();
     int task = agent_[agent].get_min_weight_task();
-    
+
     //cout << "ASSIGNMENT OF TASK #" << task << " TO AGENT #" << agent << endl;
     agent_[agent].assign(task);
     //agent_[agent].show_assigned_tasks();
-    
+
     for (Agent & a : agent_) {
-        a.cross_out(task); 
-        //a.show_possible_tasks();
+        a.cross_out(task);
+     //   a.show_possible_tasks();
     }
     remove_impossible_tasks();
 }
@@ -214,25 +217,25 @@ void Instance::show_tasks() {
     for (int task = 0; task < nb_tasks_; task++) {
         cout << "Task #" << task << endl;
         cout << "   Number of agents: " << nb_agents_ << endl;
-        
+
         cout << "   Gain per agent: " << endl;
         for (int id = 0; id < nb_agents_; id++) {
             cout << agent_[id].get_gain(task) << " ";
         }
         cout << endl;
-        
+
         cout << "   Weight per agent: " << endl;
         for (int id = 0; id < nb_agents_; id++) {
             cout << agent_[id].get_weight(task) << " ";
         }
         cout << endl;
-        
+
         cout << "   Gain/weight per agent: " << endl;
         for (int id = 0; id < nb_agents_; id++) {
             cout << agent_[id].get_gain_weight_ratio(task) << " ";
         }
         cout << endl;
-        
+
         cout << " " << endl;
     }
 }
@@ -242,25 +245,25 @@ void Instance::show_agents() {
         cout << "Agent #" << id << endl;
         cout << "   Number of tasks: " << nb_tasks_ << endl;
         cout << "   Maximum capacity: " << agent_[id].get_max_capacity() << endl;
-        
+
         cout << "   Gain per task: " << endl;
         for (int task = 0; task < nb_tasks_; task++) {
             cout << agent_[id].get_gain(task) << " ";
         }
         cout << endl;
-        
+
         cout << "   Weight per task: " << endl;
         for (int task = 0; task < nb_tasks_; task++) {
             cout << agent_[id].get_weight(task) << " ";
         }
         cout << endl;
-        
+
         cout << "   Gain/weight per task: " << endl;
         for (int task = 0; task < nb_tasks_; task++) {
             cout << agent_[id].get_gain_weight_ratio(task) << " ";
         }
         cout << endl;
-        
+
         cout << " " << endl;
     }
 }

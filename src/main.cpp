@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
     ifstream instance_file;
-    const char file_name[] = "instances/gap12.txt";
+    const char file_name[] = "instances/gap3.txt";
     instance_file.open(file_name);
 
     if(instance_file.is_open()) {
@@ -25,7 +25,6 @@ int main() {
             Heuristic h = Heuristic(i, weight_function);
             heuristic.push_back(h);
         }
-        
         //for (Heuristic & h : heuristic) {
             Heuristic & h = heuristic[3];
             int nb_iterations = 0;
