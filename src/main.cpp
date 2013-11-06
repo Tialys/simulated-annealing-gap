@@ -24,9 +24,8 @@ int main(int argc, char* argv[]) {
 
         if(instance_file.is_open()) {
             vector<Heuristic> heuristic;
-
-            WeightFunction weight_function = to_weight_function(argv[2]);
             vector<Instance> instance;
+            WeightFunction weight_function = to_weight_function(argv[2]);
 
             load(instance_file, instance);
             cout << int(instance.size()) << " instances loaded" << endl;

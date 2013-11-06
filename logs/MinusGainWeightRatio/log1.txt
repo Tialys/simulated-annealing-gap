@@ -1,0 +1,22 @@
+5 instances loaded
+SOLUTION OF VALUE: 309
+Achieved in 15 iterations
+Created 10 neighbours
+0 good neighbours
+SOLUTION OF VALUE: 293
+Achieved in 14 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 286
+Achieved in 15 iterations
+Created 10 neighbours
+SOLUTION OF VALUE: 294
+1 good neighbours
+SOLUTION OF VALUE: 275
+Achieved in 14 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 297
+Achieved in 15 iterations
+Created 10 neighbours
+SOLUTION OF VALUE: 290
+SOLUTION OF VALUE: 290
+2 good neighbours

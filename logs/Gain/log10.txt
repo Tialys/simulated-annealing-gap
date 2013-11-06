@@ -1,0 +1,16 @@
+5 instances loaded
+SOLUTION OF VALUE: 521
+Achieved in 33 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 581
+Achieved in 36 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 555
+Achieved in 34 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 537
+Achieved in 34 iterations
+               NON ADMISSIBLE SOLUTION
+SOLUTION OF VALUE: 540
+Achieved in 34 iterations
+               NON ADMISSIBLE SOLUTION

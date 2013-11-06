@@ -1,0 +1,37 @@
+5 instances loaded
+SOLUTION OF VALUE: 577
+Achieved in 30 iterations
+Created 45 neighbours
+SOLUTION OF VALUE: 590
+SOLUTION OF VALUE: 580
+SOLUTION OF VALUE: 562
+SOLUTION OF VALUE: 585
+4 good neighbours
+SOLUTION OF VALUE: 590
+Achieved in 30 iterations
+Created 45 neighbours
+SOLUTION OF VALUE: 580
+SOLUTION OF VALUE: 581
+2 good neighbours
+SOLUTION OF VALUE: 629
+Achieved in 30 iterations
+Created 45 neighbours
+SOLUTION OF VALUE: 613
+SOLUTION OF VALUE: 619
+SOLUTION OF VALUE: 624
+3 good neighbours
+SOLUTION OF VALUE: 638
+Achieved in 30 iterations
+Created 45 neighbours
+SOLUTION OF VALUE: 640
+SOLUTION OF VALUE: 632
+SOLUTION OF VALUE: 631
+SOLUTION OF VALUE: 622
+4 good neighbours
+SOLUTION OF VALUE: 603
+Achieved in 30 iterations
+Created 45 neighbours
+SOLUTION OF VALUE: 593
+SOLUTION OF VALUE: 595
+SOLUTION OF VALUE: 598
+3 good neighbours

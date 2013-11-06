@@ -1,0 +1,21 @@
+5 instances loaded
+SOLUTION OF VALUE: 509
+Achieved in 25 iterations
+Created 10 neighbours
+0 good neighbours
+SOLUTION OF VALUE: 483
+Achieved in 25 iterations
+Created 10 neighbours
+0 good neighbours
+SOLUTION OF VALUE: 516
+Achieved in 25 iterations
+Created 10 neighbours
+0 good neighbours
+SOLUTION OF VALUE: 496
+Achieved in 25 iterations
+Created 10 neighbours
+0 good neighbours
+SOLUTION OF VALUE: 482
+Achieved in 25 iterations
+Created 10 neighbours
+0 good neighbours
