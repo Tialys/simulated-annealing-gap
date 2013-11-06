@@ -19,8 +19,8 @@ Agent::Agent(int id,
              weight_(weight)
 {
     vector<int> possible_tasks_;
-    int min_weight_task_;
-    double desirability_;
+    int min_weight_task_ = 0;
+    double desirability_ = 0.0;
     vector<int> assigned_tasks_;
 }
 
@@ -36,9 +36,6 @@ double Agent::get_weight(int task) {
     return weight_[task];
 }
 
-double Agent::get_desirability() {
-    return desirability_;
-}
 
 double Agent::get_gain_weight_ratio(int task) {
     return gain_[task] / weight_[task];
@@ -93,18 +90,70 @@ void Agent::initialise_possible_tasks(vector<int> task) {
 
 void Agent::remove_impossible_tasks() {
     vector<int>::iterator it = possible_tasks_.begin();
-    for (; it != possible_tasks_.end(); ++it) {
-        //cout << get_weight(*it) << endl;
-        if (get_weight(*it) > max_capacity_)
+    while (it != possible_tasks_.end()) {
+        double current_weight = get_weight(*it);
+        if (current_weight > current_capacity_) 
             possible_tasks_.erase(it);
+        else
+            it++;
     }
-    /*
-    cout << "possible tasks' weight" << endl;
+}
+
+bool Agent::satisfies_capacity_constraint() {
+    double total_weight = 0.0;
+    for (int task : assigned_tasks_) {
+        total_weight += get_weight(task);
+        //cout << get_weight(task) << " ";
+    }
+    //cout << "= " << total_weight << " compared to " << max_capacity_ << endl;
+    return total_weight <= max_capacity_;
+}
+
+bool Agent::assigned_task(int task) {
+    bool is_present = false;
+    for (int t : assigned_tasks_) {
+        is_present |= (t == task);
+    }
+    return is_present;
+}
+
+double Agent::compute_value() {
+    double value = 0.0;
+    for (int t : assigned_tasks_) {
+        value += get_gain(t);
+    }
+    return value;
+}
+
+void Agent::show_solution() {
+    double total_weight = 0.0;
+    double total_gain = 0.0;
+    cout << "Agent #" << id_ << endl;
+    cout << "    Possible tasks:" << endl;
+    cout << "    ";
     for (int t : possible_tasks_) {
-        cout << "task " <<  t 
-             << " of weight " << get_weight(t)<< endl;
+        cout << t << " "; 
     }
-    */
+    cout << endl;
+    cout << "    ";
+    for (int t : possible_tasks_) {
+        cout << "(" << get_weight(t) << ") ";
+    }
+    cout << endl;
+    cout << "    Assigned tasks:" << endl;
+    cout << "    ";
+    for (int t : assigned_tasks_) {
+        total_weight += get_weight(t);
+        total_gain += get_gain(t);
+        cout << "task #" << t << " of weight " << get_weight(t)
+                              << " of gain " << get_gain(t);
+        cout << endl << "    ";
+    }
+    cout << endl;
+    cout << "    Total weight: " << total_weight 
+                                << " (" << current_capacity_ << "/" 
+                                        << max_capacity_ << ")" << endl;
+    cout << "    Total gain: " << total_gain << endl;
 }
 
 void Agent::find_min_weight_task(WeightFunction weight_function) {
@@ -171,11 +220,19 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
     min_weight_task_ = min_weight_task;
 }
 
+double Agent::get_desirability() {
+    return desirability_;
+}
+
 int Agent::get_min_weight_task() {
     return min_weight_task_;
 }
 
 void Agent::compute_desirability(WeightFunction weight_function) {
+    if (int(possible_tasks_.size()) == 0) {
+        desirability_ = -1;
+        return;
+    }
     find_min_weight_task(weight_function);
     int min_weight_task = get_min_weight_task();
 

@@ -1,99 +1,20 @@
 #include "instance.h"
 
-int Instance::get_nb_agents(){
-    return nb_agents_;
-}
+void load(ifstream& instance_file, vector<Instance> & instance) {
+    int nb_instances;
 
-int Instance::get_nb_tasks() {
-    return nb_tasks_;
-}
+    instance_file >> nb_instances;
+    //cout << "Instance file containing " << nb_instances << " instances" << endl;
 
-int Instance::get_nb_unassigned_tasks() {
-    int count = agent_[0].get_nb_unassigned_tasks();
-/*
-    bool equal = true;
-    for (Agent & a : agent_) {
-        equal &= (count == a.get_nb_unassigned_tasks());
-    }
-    cout << "Same number of unassigned tasks for every agent? " << equal << endl;
-*/
-    return count;
-}
+    for (int i=0; i < nb_instances; i++) {
+        Instance temp_instance = Instance(instance_file);
+        instance.push_back(temp_instance);
 
-bool Instance::remaining_tasks() {
-    if (get_nb_unassigned_tasks() > 0)
-        return true;
-    else if (get_nb_unassigned_tasks() == 0)
-        return false;
-    else {
-        cout << "PROBLEM HERE" << endl;
-        return false;
-    }
-}
-
-void Instance::initialise_possible_tasks() {
-    for (Agent & agent : agent_) {
-        agent.initialise_possible_tasks(task_);
-    }
-}
-
-void Instance::remove_impossible_tasks() {
-    for (Agent & agent : agent_) {
-        agent.remove_impossible_tasks();
-    }
-}
-
-void Instance::show_possible_tasks() {
-    for (Agent & agent : agent_) {
-        agent.show_possible_tasks();
-    }
-}
-
-void Instance::compute_desirability(WeightFunction weight_function) {
-    for (Agent & agent : agent_) {
-        agent.compute_desirability(weight_function); 
-    }   
-}
-
-void Instance::show_desirability() {
-    for (Agent & agent : agent_) {
-        cout << "Agent #" << agent.get_id() << endl;
-        cout << "    Desirability: "  << agent.get_desirability() << endl;
-    }
-}
-
-int Instance::max_desirability_agent() {
-    double max_desirability = agent_[0].get_desirability();
-    int max_desirability_agent = 0;
-
-    for (Agent & agent : agent_) {
-        double current_desirability = agent.get_desirability(); 
-        if (current_desirability > max_desirability) {
-            max_desirability = current_desirability;
-            max_desirability_agent = agent.get_id(); 
-        }
-    }
-    return max_desirability_agent;
-}
-
-void Instance::assign() {
-    int agent = max_desirability_agent();
-    int task = agent_[agent].get_min_weight_task();
-    
-    cout << "ASSIGNMENT OF TASK #" << task << " TO AGENT #" << agent << endl;
-    agent_[agent].assign(task);
-    agent_[agent].show_assigned_tasks();
-    
-    for (Agent & a : agent_) {
-        a.cross_out(task); 
-        //a.show_possible_tasks();
-    }
-    remove_impossible_tasks();
-}
-
-void Instance::show_assignment() {
-    for (Agent & a : agent_) {
-        a.show_assigned_tasks();
+        /*
+        cout << ">>>>>> Instance #" << i << endl;
+        instance[i].show_agents();
+        instance[i].show_tasks();
+        */
     }
 }
 
@@ -111,7 +32,7 @@ Instance::Instance(ifstream& instance_file) {
     vector<map<int, double>> agent_task_gain;
     vector<map<int, double>> agent_task_weight;
     
-    cout << "read metadata" << endl;
+    //cout << "read metadata" << endl;
 
     instance_file >> nb_agents_;
     instance_file >> nb_tasks_;
@@ -120,7 +41,7 @@ Instance::Instance(ifstream& instance_file) {
         task_.push_back(taskId);
     }
     
-    cout << "read gain" << endl;
+    //cout << "read gain" << endl;
     // read gain
     for (int agent = 0; agent < nb_agents_; agent++) {
         map<int, double> task_gain;
@@ -133,7 +54,7 @@ Instance::Instance(ifstream& instance_file) {
         agent_task_gain.push_back(task_gain);
     }
     
-    cout << "read weight" << endl;
+    //cout << "read weight" << endl;
     // read weight
     for (int agent = 0; agent < nb_agents_; agent++) {
         map<int, double> task_weight;
@@ -146,7 +67,7 @@ Instance::Instance(ifstream& instance_file) {
         agent_task_weight.push_back(task_weight);
     }
 
-    cout << "read max capacity" << endl;
+    //cout << "read max capacity" << endl;
     // read max capacity
     for (int agent = 0; agent < nb_agents_; agent++) {
         double max_capacity;
@@ -166,6 +87,85 @@ Instance::Instance(ifstream& instance_file) {
         agent_.push_back(agent);
     }
 }
+
+// CONST
+int Instance::get_nb_agents(){
+    return nb_agents_;
+}
+
+// CONST
+int Instance::get_nb_tasks() {
+    return nb_tasks_;
+}
+
+// VARIABLE
+int Instance::get_nb_unassigned_tasks() {
+    int count = agent_[0].get_nb_unassigned_tasks();
+/*
+    bool equal = true;
+    for (Agent & a : agent_) {
+        equal &= (count == a.get_nb_unassigned_tasks());
+    }
+    cout << "Same number of unassigned tasks for every agent? " << equal << endl;
+*/
+    return count;
+}
+
+// INITIAL POSSIBLE TASKS (called once)
+void Instance::initialise_possible_tasks() {
+    for (Agent & agent : agent_) {
+        agent.initialise_possible_tasks(task_);
+    }
+}
+
+// Compute desirability for every agent (called once per iteration)
+// - side effect: compute minimum weight task for every agent 
+void Instance::compute_desirability(WeightFunction weight_function) {
+    for (Agent & agent : agent_) {
+        agent.compute_desirability(weight_function); 
+    }   
+}
+
+// Find maximum desirability agent (called once per iteration)
+int Instance::max_desirability_agent() {
+    double max_desirability = agent_[0].get_desirability();
+    int max_desirability_agent = 0;
+
+    for (Agent & agent : agent_) {
+        double current_desirability = agent.get_desirability(); 
+        if (current_desirability > max_desirability) {
+            max_desirability = current_desirability;
+            max_desirability_agent = agent.get_id(); 
+        }
+    }
+    return max_desirability_agent;
+}
+
+// Assign to maximum desirability agent its min weight task (called once per iteration)
+void Instance::assign() {
+    int agent = max_desirability_agent();
+    int task = agent_[agent].get_min_weight_task();
+    
+    //cout << "ASSIGNMENT OF TASK #" << task << " TO AGENT #" << agent << endl;
+    agent_[agent].assign(task);
+    //agent_[agent].show_assigned_tasks();
+    
+    for (Agent & a : agent_) {
+        a.cross_out(task); 
+        //a.show_possible_tasks();
+    }
+    remove_impossible_tasks();
+}
+
+
+// UPDATE TASKS
+void Instance::remove_impossible_tasks() {
+    for (Agent & agent : agent_) {
+        agent.remove_impossible_tasks();
+    }
+}
+
+// LOGGING METHODS
 
 void Instance::show_tasks() {
     for (int task = 0; task < nb_tasks_; task++) {
@@ -222,18 +222,76 @@ void Instance::show_agents() {
     }
 }
 
-void load(ifstream& instance_file, vector<Instance> & instance) {
-    int nb_instances;
-
-    instance_file >> nb_instances;
-    cout << "Instance file containing " << nb_instances << " instances" << endl;
-
-    for (int i=0; i < nb_instances; i++) {
-        Instance temp_instance = Instance(instance_file);
-        instance.push_back(temp_instance);
-
-        cout << ">>>>>> Instance #" << i << endl;
-        instance[i].show_agents();
-        instance[i].show_tasks();
+void Instance::show_assignment() {
+    for (Agent & a : agent_) {
+        a.show_assigned_tasks();
     }
 }
+
+void Instance::show_solution() {
+    for (Agent & a : agent_) {
+        a.show_solution();
+    }
+}
+
+void Instance::show_possible_tasks() {
+    for (Agent & agent : agent_) {
+        agent.show_possible_tasks();
+    }
+}
+
+/*
+void Instance::show_desirability() {
+    for (Agent & agent : agent_) {
+        cout << "Agent #" << agent.get_id() << endl;
+        cout << "    Desirability: "  << agent.get_desirability() << endl;
+    }
+}
+*/
+
+// CONDITIONS
+
+// called once per iteration
+bool Instance::remaining_tasks() {
+    if (get_nb_unassigned_tasks() > 0)
+        return true;
+    else if (get_nb_unassigned_tasks() == 0)
+        return false;
+    else {
+        cout << "PROBLEM HERE" << endl;
+        return false;
+    }
+}
+
+// called once at the end
+bool Instance::satisfies_assignment_constraint() {
+    bool satisfies = true;
+    for (int t : task_) {
+        int task_assignments = 0;
+        for (Agent & a : agent_) {
+            if (a.assigned_task(t))
+                ++task_assignments;
+        }
+        satisfies &= (task_assignments == 1);
+    }
+    return satisfies;
+}
+
+// called once at the end
+bool Instance::satisfies_capacity_constraint() {
+    bool satisfies = true;
+    for (Agent & a : agent_) {
+        satisfies &= a.satisfies_capacity_constraint();
+    }
+    return satisfies;
+}
+
+// called once at the end
+double Instance::value() {
+    double value = 0.0;
+    for (Agent & a : agent_) {
+        value += a.compute_value();
+    }
+    return value;
+}
+

@@ -9,20 +9,18 @@ class Heuristic {
     private:
         Instance instance_;
         WeightFunction weight_function_;
+        double value_;
     public:
         Heuristic(Instance & instance, WeightFunction weight_function);
         void assign();
+        
         bool remaining_tasks();
-        void show_assignment();
-};
-
-class Solution {
-    private:
-        double value;
-    public:
-        Solution(Heuristic heuristic);
-        bool satisfies_affectation_constraint();
+        bool satisfies_assignment_constraint();
         bool satisfies_capacity_constraint();
+        
+        void show_assignment();
+        void show_value();
+        void show_solution();
 };
 
 #endif
