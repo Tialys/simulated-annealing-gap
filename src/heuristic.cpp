@@ -6,13 +6,16 @@ Heuristic::Heuristic(Instance & instance,
                      instance_(instance),
                      weight_function_(weight_function) {
     value_ = 0.0;
-    //cout << "Initialise heuristic" << endl;
-    //cout << endl;
-    
-    //cout << "Find possible tasks" << endl;
+    nb_iterations_ = 0;
     instance_.initialise_possible_tasks();
-    //instance_.show_possible_tasks();
-    //cout << endl;
+}
+
+void Heuristic::set_nb_iterations(int nb_iterations) {
+    nb_iterations_ = nb_iterations;
+}
+
+int Heuristic::get_nb_iterations() {
+    return nb_iterations_;
 }
 
 void Heuristic::assign() {

@@ -54,9 +54,10 @@ void Agent::show_possible_tasks() {
 }
 
 void Agent::show_assigned_tasks() {
-    cout << " assigned tasks (" << int(assigned_tasks_.size()) << "): ";
+    cout << "Agent " << id_ << ": ";
+    cout << int(assigned_tasks_.size()) << " assigned tasks: ";
     for (int t : assigned_tasks_) {
-        cout << t << "(agent " << id_ << ") ";
+        cout << t << " ";
     }
     cout << endl;
 }
