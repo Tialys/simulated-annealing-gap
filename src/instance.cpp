@@ -21,16 +21,17 @@ void load(ifstream& instance_file, vector<Instance> & instance) {
 // GENERATE NEIGHBOURHOOD (instances with tasks swapped between two agents)
 void Instance::create_neighbourhood(Instance & base_instance,
                                     vector<Instance> & neighbourhood) {
+    int nb_neighbourhoods = 0;
     for (Agent & a1 : base_instance.agents()) {
         for (Agent & a2 : base_instance.agents()) {
-            if (a1.get_id() != a2.get_id()) {
-                cout << "create neighbour" << endl;
+            if (a1.get_id() < a2.get_id()) {
                 Instance neighbour = Instance(base_instance, a1, a2);
-                cout << "done creating neighbour" << endl;
                 neighbourhood.emplace_back(neighbour);
+                nb_neighbourhoods++;
             }
         }
     }
+    cout << "Created " << nb_neighbourhoods << " neighbours" << endl;
 }
 // Instance file format:
 // First line : m (agents) n (tasks)
@@ -115,11 +116,13 @@ Instance::Instance(Instance & i, Agent & a1, Agent & a2) {
     }
     
     agent_[a1.get_id()].swap_assigned_tasks(agent_[a2.get_id()]);
+    /*
     cout << "original "; a1.show_assigned_tasks();
     cout << "new      "; agent_[a1.get_id()].show_assigned_tasks();
     
     cout << "original "; a2.show_assigned_tasks();
     cout << "new      "; agent_[a2.get_id()].show_assigned_tasks();
+    */
 }
 
 // CONST

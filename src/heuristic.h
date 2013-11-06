@@ -12,20 +12,25 @@ class Heuristic {
         double value_;
         int nb_iterations_;
         vector<Instance> neighbourhood_;
+        vector<Heuristic> heuristic_neighbour_;
     public:
         Heuristic(Instance & instance, WeightFunction weight_function);
+        void solve();
         void assign();
         void set_nb_iterations(int nb_iterations);
         int get_nb_iterations();
         void initialise_neighbourhood();
+        void compute_neighbourhood_values();
         
         bool remaining_tasks();
         bool satisfies_assignment_constraint();
         bool satisfies_capacity_constraint();
+        bool admissible_solution();
         
         void show_assignment();
         void show_value();
         void show_solution();
+        void show_information();
 };
 
 #endif

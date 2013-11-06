@@ -10,12 +10,13 @@ using namespace std;
 
 int main() {
     ifstream instance_file;
-    const char file_name[] = "instances/gap3.txt";
+    const char file_name[] = "instances/gap9.txt";
     instance_file.open(file_name);
 
     if(instance_file.is_open()) {
         vector<Heuristic> heuristic;
-        WeightFunction weight_function = WeightMaxCapacityRatio;
+        //WeightFunction weight_function = WeightMaxCapacityRatio;
+        WeightFunction weight_function = MinusGainWeightRatio;
         vector<Instance> instance;
 
         load(instance_file, instance);
@@ -25,37 +26,22 @@ int main() {
             Heuristic h = Heuristic(i, weight_function);
             heuristic.push_back(h);
         }
-        //for (Heuristic & h : heuristic) {
-            Heuristic & h = heuristic[3];
-            int nb_iterations = 0;
-            h.show_solution();
-            while (h.remaining_tasks()) {
-                cout << "ITERATION " << nb_iterations << endl;
-                h.assign();
-                h.show_solution();
-                nb_iterations++;
-            }
-            h.set_nb_iterations(nb_iterations);
-            h.show_solution();
+        for (Heuristic & h : heuristic) {
+            //h.show_solution();
+            h.solve();
+
+            //h.show_solution();
             h.show_value();
-            cout << "====================" << endl;
-            h.show_assignment();
-            cout << "====================" << endl;
-            cout << "Solution satisfies assignment constraint? "
-                 << (h.satisfies_assignment_constraint() ? "true" : "false")
-                 << endl;
-            cout << "Solution satisfies capacity constraint? "
-                 << (h.satisfies_capacity_constraint() ? "true" : "false")
-                 << endl;
-            cout << "Solution is realisable? "
-                 << (h.satisfies_capacity_constraint() &&
-                     h.satisfies_assignment_constraint()
-                     ? "true" : "false")
-                 << endl;
+            //h.show_information();
             cout << "Achieved in " << h.get_nb_iterations() << " iterations" << endl;
 
-            h.initialise_neighbourhood();
-        //}
+            if (h.admissible_solution()) {
+                h.initialise_neighbourhood();
+                h.compute_neighbourhood_values();
+            } else {
+                cout << "               NON ADMISSIBLE SOLUTION" << endl;
+            }
+        }
     } 
     return 0;
 }

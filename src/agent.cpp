@@ -59,6 +59,12 @@ void Agent::show_assigned_tasks() {
     for (int t : assigned_tasks_) {
         cout << t << " ";
     }
+    double total_weight = 0.0;
+    for (int t : assigned_tasks_) {
+        total_weight += get_weight(t);
+    }
+    cout << "(" << total_weight << "/" << max_capacity_ << ")";
+
     cout << endl;
 }
 
@@ -101,21 +107,17 @@ void Agent::remove_impossible_tasks() {
 }
 
 void Agent::swap_assigned_tasks(Agent & a) {
-    cout << "swapping soon" << endl;
     vector<int> save;
     
     // save own assigned tasks
     for (int t : assigned_tasks_) {
         save.emplace_back(t);
     }
-    cout << "saved own tasks" << endl; 
     // delete own assigned tasks
     vector<int>::iterator it = assigned_tasks_.begin();
     while (it != assigned_tasks_.end()) {
         assigned_tasks_.erase(it);
     }
-    cout << "DELETED MY OWN TASKS OH NO! " << int(assigned_tasks_.size()) << endl;
-    
     // copy tasks from agent
     for (int t : a.assigned_tasks_) {
         assigned_tasks_.emplace_back(t);
@@ -249,10 +251,10 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
             break;
         case MinusGainWeightRatio:
             min_weight_task = possible_tasks_[0];
-            min_weight = get_gain_weight_ratio(min_weight_task);
+            min_weight = - get_gain_weight_ratio(min_weight_task);
             for (int t : possible_tasks_)
             {
-                double current_weight = get_gain_weight_ratio(t);
+                double current_weight = - get_gain_weight_ratio(t);
                 if (current_weight < min_weight) {
                     min_weight_task = t;
                     min_weight = current_weight;
