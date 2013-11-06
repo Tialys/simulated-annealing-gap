@@ -16,6 +16,10 @@ class Instance {
 
         int get_nb_agents();
         int get_nb_tasks();
+        int get_nb_possible_tasks();
+        int get_nb_unassigned_tasks();
+
+        bool remaining_tasks();
 
         void show_agents();
         void show_tasks();
@@ -27,6 +31,7 @@ class Instance {
         void show_desirability();
         int max_desirability_agent();
         void assign();
+        void show_assignment();
 
         //void find_min_weight_task(WeightFunction weight_function);
     private:

@@ -33,10 +33,18 @@ class Agent {
         int get_min_weight_task() ;
 
         void initialise_possible_tasks(vector<int> task);
-        void show_possible_tasks();
         void remove_impossible_tasks();
-        void compute_desirability(WeightFunction weight_function);
+        void show_possible_tasks();
+        int get_nb_unassigned_tasks();
+        
         void find_min_weight_task(WeightFunction weight_function);
+        void compute_desirability(WeightFunction weight_function);
+
+        void assign(int task);
+        void cross_out(int task);
+        void show_assigned_tasks();
+        
+        void decrease_capacity(int weight);
     private:
         int id_;
         
@@ -49,6 +57,7 @@ class Agent {
         double desirability_;
         int min_weight_task_;
         vector<int> possible_tasks_;
+        vector<int> assigned_tasks_;
 };
 
 #endif

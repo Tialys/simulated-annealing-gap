@@ -8,6 +8,29 @@ int Instance::get_nb_tasks() {
     return nb_tasks_;
 }
 
+int Instance::get_nb_unassigned_tasks() {
+    int count = agent_[0].get_nb_unassigned_tasks();
+/*
+    bool equal = true;
+    for (Agent & a : agent_) {
+        equal &= (count == a.get_nb_unassigned_tasks());
+    }
+    cout << "Same number of unassigned tasks for every agent? " << equal << endl;
+*/
+    return count;
+}
+
+bool Instance::remaining_tasks() {
+    if (get_nb_unassigned_tasks() > 0)
+        return true;
+    else if (get_nb_unassigned_tasks() == 0)
+        return false;
+    else {
+        cout << "PROBLEM HERE" << endl;
+        return false;
+    }
+}
+
 void Instance::initialise_possible_tasks() {
     for (Agent & agent : agent_) {
         agent.initialise_possible_tasks(task_);
@@ -56,7 +79,22 @@ int Instance::max_desirability_agent() {
 void Instance::assign() {
     int agent = max_desirability_agent();
     int task = agent_[agent].get_min_weight_task();
+    
     cout << "ASSIGNMENT OF TASK #" << task << " TO AGENT #" << agent << endl;
+    agent_[agent].assign(task);
+    agent_[agent].show_assigned_tasks();
+    
+    for (Agent & a : agent_) {
+        a.cross_out(task); 
+        //a.show_possible_tasks();
+    }
+    remove_impossible_tasks();
+}
+
+void Instance::show_assignment() {
+    for (Agent & a : agent_) {
+        a.show_assigned_tasks();
+    }
 }
 
 // Instance file format:

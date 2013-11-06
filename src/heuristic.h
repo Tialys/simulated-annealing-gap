@@ -8,9 +8,12 @@
 class Heuristic {
     private:
         Instance instance_;
+        WeightFunction weight_function_;
     public:
         Heuristic(Instance & instance, WeightFunction weight_function);
         void assign();
+        bool remaining_tasks();
+        void show_assignment();
 };
 
 class Solution {
@@ -23,4 +26,3 @@ class Solution {
 };
 
 #endif
-

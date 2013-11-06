@@ -19,8 +19,9 @@ Agent::Agent(int id,
              weight_(weight)
 {
     vector<int> possible_tasks_;
-    double desirability_;
     int min_weight_task_;
+    double desirability_;
+    vector<int> assigned_tasks_;
 }
 
 int Agent::get_id() {
@@ -55,6 +56,34 @@ void Agent::show_possible_tasks() {
     cout << endl;
 }
 
+void Agent::show_assigned_tasks() {
+    cout << " assigned tasks (" << int(assigned_tasks_.size()) << "): ";
+    for (int t : assigned_tasks_) {
+        cout << t << "(agent " << id_ << ") ";
+    }
+    cout << endl;
+}
+
+void Agent::cross_out(int task) {
+    possible_tasks_.erase(remove(possible_tasks_.begin(),
+                                 possible_tasks_.end(),
+                                 task),
+                          possible_tasks_.end());
+}
+
+int Agent::get_nb_unassigned_tasks() {
+    return int(possible_tasks_.size());
+}
+
+void Agent::decrease_capacity(int weight) {
+    current_capacity_ -= weight;
+}
+
+void Agent::assign(int task) {
+    assigned_tasks_.emplace_back(task);
+    decrease_capacity(get_weight(task));
+}
+
 void Agent::initialise_possible_tasks(vector<int> task) {
     for (int t : task) {
         if (get_weight(t) <= max_capacity_)
@@ -63,19 +92,19 @@ void Agent::initialise_possible_tasks(vector<int> task) {
 }
 
 void Agent::remove_impossible_tasks() {
-    cout << "kikoo remove " << endl;
-    cout << "don't tell me" << int(possible_tasks_.size()) << endl;
     vector<int>::iterator it = possible_tasks_.begin();
     for (; it != possible_tasks_.end(); ++it) {
-        cout << get_weight(*it) << endl;
+        //cout << get_weight(*it) << endl;
         if (get_weight(*it) > max_capacity_)
             possible_tasks_.erase(it);
     }
+    /*
     cout << "possible tasks' weight" << endl;
     for (int t : possible_tasks_) {
         cout << "task " <<  t 
              << " of weight " << get_weight(t)<< endl;
     }
+    */
 }
 
 void Agent::find_min_weight_task(WeightFunction weight_function) {
@@ -107,10 +136,12 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
                     min_weight = current_weight;
                 }
             }
+            /*
             cout << "Agent #" << id_ << endl;
             cout << "    minimum weight task #" << min_weight_task
                  << " of weight " << min_weight
                  << endl;
+            */
             break;
         case WeightMaxCapacityRatio:
             min_weight_task = possible_tasks_[0];
