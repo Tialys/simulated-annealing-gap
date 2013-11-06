@@ -13,10 +13,14 @@ using namespace std;
 class Instance {
     public:
         Instance(ifstream& instance_file);
+        Instance(Instance & i, Agent & a1, Agent & a2);
+        void create_neighbourhood(Instance & base_instance,
+                                  vector<Instance> & neighbourhood);
 
         int get_nb_agents();
         int get_nb_tasks();
         int get_nb_unassigned_tasks();
+        vector<Agent> agents();
 
         void initialise_possible_tasks();
         void compute_desirability(WeightFunction weight_function);

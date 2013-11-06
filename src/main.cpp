@@ -10,7 +10,7 @@ using namespace std;
 
 int main() {
     ifstream instance_file;
-    const char file_name[] = "instances/gap1.txt";
+    const char file_name[] = "instances/gap12.txt";
     instance_file.open(file_name);
 
     if(instance_file.is_open()) {
@@ -54,6 +54,8 @@ int main() {
                      ? "true" : "false")
                  << endl;
             cout << "Achieved in " << h.get_nb_iterations() << " iterations" << endl;
+
+            h.initialise_neighbourhood();
         //}
     } 
     return 0;

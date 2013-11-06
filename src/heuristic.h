@@ -11,11 +11,13 @@ class Heuristic {
         WeightFunction weight_function_;
         double value_;
         int nb_iterations_;
+        vector<Instance> neighbourhood_;
     public:
         Heuristic(Instance & instance, WeightFunction weight_function);
         void assign();
         void set_nb_iterations(int nb_iterations);
         int get_nb_iterations();
+        void initialise_neighbourhood();
         
         bool remaining_tasks();
         bool satisfies_assignment_constraint();

@@ -100,6 +100,38 @@ void Agent::remove_impossible_tasks() {
     }
 }
 
+void Agent::swap_assigned_tasks(Agent & a) {
+    cout << "swapping soon" << endl;
+    vector<int> save;
+    
+    // save own assigned tasks
+    for (int t : assigned_tasks_) {
+        save.emplace_back(t);
+    }
+    cout << "saved own tasks" << endl; 
+    // delete own assigned tasks
+    vector<int>::iterator it = assigned_tasks_.begin();
+    while (it != assigned_tasks_.end()) {
+        assigned_tasks_.erase(it);
+    }
+    cout << "DELETED MY OWN TASKS OH NO! " << int(assigned_tasks_.size()) << endl;
+    
+    // copy tasks from agent
+    for (int t : a.assigned_tasks_) {
+        assigned_tasks_.emplace_back(t);
+    }
+    // delete tasks of agent
+    vector<int>::iterator it_a = a.assigned_tasks_.begin();
+    while (it_a != a.assigned_tasks_.end()) {
+        a.assigned_tasks_.erase(it_a);
+    }
+    
+    // copy save into agent
+    for (int t : save) {
+        a.assigned_tasks_.emplace_back(t);
+    }
+}
+
 bool Agent::satisfies_capacity_constraint() {
     double total_weight = 0.0;
     for (int task : assigned_tasks_) {

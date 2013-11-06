@@ -8,7 +8,7 @@ void load(ifstream& instance_file, vector<Instance> & instance) {
 
     for (int i=0; i < nb_instances; i++) {
         Instance temp_instance = Instance(instance_file);
-        instance.push_back(temp_instance);
+        instance.emplace_back(temp_instance);
 
         /*
         cout << ">>>>>> Instance #" << i << endl;
@@ -18,6 +18,20 @@ void load(ifstream& instance_file, vector<Instance> & instance) {
     }
 }
 
+// GENERATE NEIGHBOURHOOD (instances with tasks swapped between two agents)
+void Instance::create_neighbourhood(Instance & base_instance,
+                                    vector<Instance> & neighbourhood) {
+    for (Agent & a1 : base_instance.agents()) {
+        for (Agent & a2 : base_instance.agents()) {
+            if (a1.get_id() != a2.get_id()) {
+                cout << "create neighbour" << endl;
+                Instance neighbour = Instance(base_instance, a1, a2);
+                cout << "done creating neighbour" << endl;
+                neighbourhood.emplace_back(neighbour);
+            }
+        }
+    }
+}
 // Instance file format:
 // First line : m (agents) n (tasks)
 // Next m lines : gain for each task
@@ -38,7 +52,7 @@ Instance::Instance(ifstream& instance_file) {
     instance_file >> nb_tasks_;
     
     for (int taskId = 0; taskId < nb_tasks_; taskId++) {
-        task_.push_back(taskId);
+        task_.emplace_back(taskId);
     }
     
     //cout << "read gain" << endl;
@@ -51,7 +65,7 @@ Instance::Instance(ifstream& instance_file) {
             pair<int, double> g(taskId, gain);
             task_gain.insert(g);
         }
-        agent_task_gain.push_back(task_gain);
+        agent_task_gain.emplace_back(task_gain);
     }
     
     //cout << "read weight" << endl;
@@ -64,7 +78,7 @@ Instance::Instance(ifstream& instance_file) {
             pair<int, double> w(taskId, weight);
             task_weight.insert(w);
         }
-        agent_task_weight.push_back(task_weight);
+        agent_task_weight.emplace_back(task_weight);
     }
 
     //cout << "read max capacity" << endl;
@@ -72,8 +86,8 @@ Instance::Instance(ifstream& instance_file) {
     for (int agent = 0; agent < nb_agents_; agent++) {
         double max_capacity;
         instance_file >> max_capacity;
-        agent_max_capacity.push_back(max_capacity);
-        agent_current_capacity.push_back(max_capacity);
+        agent_max_capacity.emplace_back(max_capacity);
+        agent_current_capacity.emplace_back(max_capacity);
     }
 
     for (int agentId = 0; agentId < nb_agents_; agentId++) {
@@ -84,8 +98,28 @@ Instance::Instance(ifstream& instance_file) {
                             agent_task_gain[agentId],
                             agent_task_weight[agentId]
                            );
-        agent_.push_back(agent);
+        agent_.emplace_back(agent);
     }
+}
+
+// Copy/swap constructor
+Instance::Instance(Instance & i, Agent & a1, Agent & a2) {
+    nb_agents_ = i.get_nb_agents();
+    nb_tasks_ = i.get_nb_tasks();
+
+    for (Agent & agent : i.agent_) {
+        agent_.emplace_back(agent);
+    }
+    for (int t : i.task_) {
+        task_.emplace_back(t);
+    }
+    
+    agent_[a1.get_id()].swap_assigned_tasks(agent_[a2.get_id()]);
+    cout << "original "; a1.show_assigned_tasks();
+    cout << "new      "; agent_[a1.get_id()].show_assigned_tasks();
+    
+    cout << "original "; a2.show_assigned_tasks();
+    cout << "new      "; agent_[a2.get_id()].show_assigned_tasks();
 }
 
 // CONST
@@ -109,6 +143,14 @@ int Instance::get_nb_unassigned_tasks() {
     cout << "Same number of unassigned tasks for every agent? " << equal << endl;
 */
     return count;
+}
+
+vector<Agent> Instance::agents() {
+    vector<Agent> agents;
+    for (Agent & a : agent_) {
+        agents.emplace_back(a);
+    }
+    return agents;
 }
 
 // INITIAL POSSIBLE TASKS (called once)
@@ -164,6 +206,7 @@ void Instance::remove_impossible_tasks() {
         agent.remove_impossible_tasks();
     }
 }
+
 
 // LOGGING METHODS
 

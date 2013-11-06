@@ -8,6 +8,13 @@ Heuristic::Heuristic(Instance & instance,
     value_ = 0.0;
     nb_iterations_ = 0;
     instance_.initialise_possible_tasks();
+    vector<Instance> neighbourhood_;
+}
+
+void Heuristic::initialise_neighbourhood() {
+    Instance & i = instance_;
+    vector<Instance> & n = neighbourhood_;
+    instance_.create_neighbourhood(i, n);
 }
 
 void Heuristic::set_nb_iterations(int nb_iterations) {
@@ -47,3 +54,4 @@ void Heuristic::show_value() {
 void Heuristic::show_solution() {
     instance_.show_solution();
 }
+
