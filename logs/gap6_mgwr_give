@@ -1,0 +1,819 @@
+5 instances loaded
+SOLUTION OF VALUE: 659
+Achieved in 32 iterations
+
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 660
+NEIGHBOUR OF VALUE: 662
+NEIGHBOUR OF VALUE: 665
+NEIGHBOUR OF VALUE: 667
+NEIGHBOUR OF VALUE: 668
+72 good neighbours
+5 awesome neighbours
+Admissible solution: 659 vs. Best neighbour: 668
+BEGIN ASCENT
+   best neighbour value: 668   current value: 659
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 669
+NEIGHBOUR OF VALUE: 670
+NEIGHBOUR OF VALUE: 671
+NEIGHBOUR OF VALUE: 674
+NEIGHBOUR OF VALUE: 676
+NEIGHBOUR OF VALUE: 677
+75 good neighbours
+6 awesome neighbours
+Admissible solution: 668 vs. Best neighbour: 677
+BEGIN ASCENT
+   best neighbour value: 677   current value: 668
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 678
+NEIGHBOUR OF VALUE: 679
+NEIGHBOUR OF VALUE: 680
+NEIGHBOUR OF VALUE: 683
+NEIGHBOUR OF VALUE: 685
+85 good neighbours
+5 awesome neighbours
+Admissible solution: 677 vs. Best neighbour: 685
+BEGIN ASCENT
+   best neighbour value: 685   current value: 677
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 686
+NEIGHBOUR OF VALUE: 687
+NEIGHBOUR OF VALUE: 688
+NEIGHBOUR OF VALUE: 691
+87 good neighbours
+4 awesome neighbours
+Admissible solution: 685 vs. Best neighbour: 691
+BEGIN ASCENT
+   best neighbour value: 691   current value: 685
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 697
+NEIGHBOUR OF VALUE: 698
+82 good neighbours
+2 awesome neighbours
+Admissible solution: 691 vs. Best neighbour: 698
+BEGIN ASCENT
+   best neighbour value: 698   current value: 691
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 703
+NEIGHBOUR OF VALUE: 704
+90 good neighbours
+2 awesome neighbours
+Admissible solution: 698 vs. Best neighbour: 704
+BEGIN ASCENT
+   best neighbour value: 704   current value: 698
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 709
+84 good neighbours
+1 awesome neighbours
+Admissible solution: 704 vs. Best neighbour: 709
+BEGIN ASCENT
+   best neighbour value: 709   current value: 704
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 710
+NEIGHBOUR OF VALUE: 711
+NEIGHBOUR OF VALUE: 712
+NEIGHBOUR OF VALUE: 714
+73 good neighbours
+4 awesome neighbours
+Admissible solution: 709 vs. Best neighbour: 714
+BEGIN ASCENT
+   best neighbour value: 714   current value: 709
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 715
+NEIGHBOUR OF VALUE: 717
+NEIGHBOUR OF VALUE: 718
+74 good neighbours
+3 awesome neighbours
+Admissible solution: 714 vs. Best neighbour: 718
+BEGIN ASCENT
+   best neighbour value: 718   current value: 714
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 719
+NEIGHBOUR OF VALUE: 721
+NEIGHBOUR OF VALUE: 722
+62 good neighbours
+3 awesome neighbours
+Admissible solution: 718 vs. Best neighbour: 722
+BEGIN ASCENT
+   best neighbour value: 722   current value: 718
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 723
+NEIGHBOUR OF VALUE: 724
+NEIGHBOUR OF VALUE: 725
+NEIGHBOUR OF VALUE: 726
+53 good neighbours
+4 awesome neighbours
+Admissible solution: 722 vs. Best neighbour: 726
+BEGIN ASCENT
+   best neighbour value: 726   current value: 722
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 727
+NEIGHBOUR OF VALUE: 732
+50 good neighbours
+2 awesome neighbours
+Admissible solution: 726 vs. Best neighbour: 732
+BEGIN ASCENT
+   best neighbour value: 732   current value: 726
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 733
+NEIGHBOUR OF VALUE: 735
+42 good neighbours
+2 awesome neighbours
+Admissible solution: 732 vs. Best neighbour: 735
+BEGIN ASCENT
+   best neighbour value: 735   current value: 732
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 736
+NEIGHBOUR OF VALUE: 737
+NEIGHBOUR OF VALUE: 740
+48 good neighbours
+3 awesome neighbours
+Admissible solution: 735 vs. Best neighbour: 740
+BEGIN ASCENT
+   best neighbour value: 740   current value: 735
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 741
+24 good neighbours
+1 awesome neighbours
+Admissible solution: 740 vs. Best neighbour: 741
+BEGIN ASCENT
+   best neighbour value: 741   current value: 740
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 743
+31 good neighbours
+1 awesome neighbours
+Admissible solution: 741 vs. Best neighbour: 743
+BEGIN ASCENT
+   best neighbour value: 743   current value: 741
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 748
+18 good neighbours
+1 awesome neighbours
+Admissible solution: 743 vs. Best neighbour: 748
+BEGIN ASCENT
+   best neighbour value: 748   current value: 743
+Created 224 neighbours
+15 good neighbours
+0 awesome neighbours
+Admissible solution: 748 vs. Best neighbour: 748
+BEGIN ASCENT
+   best neighbour value: 748   current value: 748
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+FINAL SOLUTION OF VALUE: 659
+================
+SOLUTION OF VALUE: 677
+Achieved in 32 iterations
+
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 678
+NEIGHBOUR OF VALUE: 682
+NEIGHBOUR OF VALUE: 687
+70 good neighbours
+3 awesome neighbours
+Admissible solution: 677 vs. Best neighbour: 687
+BEGIN ASCENT
+   best neighbour value: 687   current value: 677
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 688
+NEIGHBOUR OF VALUE: 692
+NEIGHBOUR OF VALUE: 694
+43 good neighbours
+3 awesome neighbours
+Admissible solution: 687 vs. Best neighbour: 694
+BEGIN ASCENT
+   best neighbour value: 694   current value: 687
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 695
+NEIGHBOUR OF VALUE: 696
+NEIGHBOUR OF VALUE: 699
+NEIGHBOUR OF VALUE: 701
+53 good neighbours
+4 awesome neighbours
+Admissible solution: 694 vs. Best neighbour: 701
+BEGIN ASCENT
+   best neighbour value: 701   current value: 694
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 702
+NEIGHBOUR OF VALUE: 703
+NEIGHBOUR OF VALUE: 706
+39 good neighbours
+3 awesome neighbours
+Admissible solution: 701 vs. Best neighbour: 706
+BEGIN ASCENT
+   best neighbour value: 706   current value: 701
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 707
+NEIGHBOUR OF VALUE: 708
+NEIGHBOUR OF VALUE: 709
+NEIGHBOUR OF VALUE: 711
+35 good neighbours
+4 awesome neighbours
+Admissible solution: 706 vs. Best neighbour: 711
+BEGIN ASCENT
+   best neighbour value: 711   current value: 706
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 712
+NEIGHBOUR OF VALUE: 714
+29 good neighbours
+2 awesome neighbours
+Admissible solution: 711 vs. Best neighbour: 714
+BEGIN ASCENT
+   best neighbour value: 714   current value: 711
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 719
+38 good neighbours
+1 awesome neighbours
+Admissible solution: 714 vs. Best neighbour: 719
+BEGIN ASCENT
+   best neighbour value: 719   current value: 714
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 720
+NEIGHBOUR OF VALUE: 721
+34 good neighbours
+2 awesome neighbours
+Admissible solution: 719 vs. Best neighbour: 721
+BEGIN ASCENT
+   best neighbour value: 721   current value: 719
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 723
+NEIGHBOUR OF VALUE: 726
+36 good neighbours
+2 awesome neighbours
+Admissible solution: 721 vs. Best neighbour: 726
+BEGIN ASCENT
+   best neighbour value: 726   current value: 721
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 727
+NEIGHBOUR OF VALUE: 730
+42 good neighbours
+2 awesome neighbours
+Admissible solution: 726 vs. Best neighbour: 730
+BEGIN ASCENT
+   best neighbour value: 730   current value: 726
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 736
+39 good neighbours
+1 awesome neighbours
+Admissible solution: 730 vs. Best neighbour: 736
+BEGIN ASCENT
+   best neighbour value: 736   current value: 730
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 737
+27 good neighbours
+1 awesome neighbours
+Admissible solution: 736 vs. Best neighbour: 737
+BEGIN ASCENT
+   best neighbour value: 737   current value: 736
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 738
+13 good neighbours
+1 awesome neighbours
+Admissible solution: 737 vs. Best neighbour: 738
+BEGIN ASCENT
+   best neighbour value: 738   current value: 737
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 740
+NEIGHBOUR OF VALUE: 741
+16 good neighbours
+2 awesome neighbours
+Admissible solution: 738 vs. Best neighbour: 741
+BEGIN ASCENT
+   best neighbour value: 741   current value: 738
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 743
+NEIGHBOUR OF VALUE: 744
+NEIGHBOUR OF VALUE: 746
+22 good neighbours
+3 awesome neighbours
+Admissible solution: 741 vs. Best neighbour: 746
+BEGIN ASCENT
+   best neighbour value: 746   current value: 741
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 748
+15 good neighbours
+1 awesome neighbours
+Admissible solution: 746 vs. Best neighbour: 748
+BEGIN ASCENT
+   best neighbour value: 748   current value: 746
+Created 224 neighbours
+15 good neighbours
+0 awesome neighbours
+Admissible solution: 748 vs. Best neighbour: 748
+BEGIN ASCENT
+   best neighbour value: 748   current value: 748
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+FINAL SOLUTION OF VALUE: 677
+================
+SOLUTION OF VALUE: 635
+Achieved in 32 iterations
+
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 641
+NEIGHBOUR OF VALUE: 643
+60 good neighbours
+2 awesome neighbours
+Admissible solution: 635 vs. Best neighbour: 643
+BEGIN ASCENT
+   best neighbour value: 643   current value: 635
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 649
+NEIGHBOUR OF VALUE: 651
+69 good neighbours
+2 awesome neighbours
+Admissible solution: 643 vs. Best neighbour: 651
+BEGIN ASCENT
+   best neighbour value: 651   current value: 643
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 653
+NEIGHBOUR OF VALUE: 656
+NEIGHBOUR OF VALUE: 657
+NEIGHBOUR OF VALUE: 658
+69 good neighbours
+4 awesome neighbours
+Admissible solution: 651 vs. Best neighbour: 658
+BEGIN ASCENT
+   best neighbour value: 658   current value: 651
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 660
+NEIGHBOUR OF VALUE: 661
+NEIGHBOUR OF VALUE: 662
+NEIGHBOUR OF VALUE: 664
+54 good neighbours
+4 awesome neighbours
+Admissible solution: 658 vs. Best neighbour: 664
+BEGIN ASCENT
+   best neighbour value: 664   current value: 658
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 666
+NEIGHBOUR OF VALUE: 667
+NEIGHBOUR OF VALUE: 668
+NEIGHBOUR OF VALUE: 670
+32 good neighbours
+4 awesome neighbours
+Admissible solution: 664 vs. Best neighbour: 670
+BEGIN ASCENT
+   best neighbour value: 670   current value: 664
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 672
+NEIGHBOUR OF VALUE: 673
+NEIGHBOUR OF VALUE: 674
+NEIGHBOUR OF VALUE: 677
+35 good neighbours
+4 awesome neighbours
+Admissible solution: 670 vs. Best neighbour: 677
+BEGIN ASCENT
+   best neighbour value: 677   current value: 670
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 679
+NEIGHBOUR OF VALUE: 680
+NEIGHBOUR OF VALUE: 681
+23 good neighbours
+3 awesome neighbours
+Admissible solution: 677 vs. Best neighbour: 681
+BEGIN ASCENT
+   best neighbour value: 681   current value: 677
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 683
+32 good neighbours
+1 awesome neighbours
+Admissible solution: 681 vs. Best neighbour: 683
+BEGIN ASCENT
+   best neighbour value: 683   current value: 681
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 685
+NEIGHBOUR OF VALUE: 686
+32 good neighbours
+2 awesome neighbours
+Admissible solution: 683 vs. Best neighbour: 686
+BEGIN ASCENT
+   best neighbour value: 686   current value: 683
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 688
+NEIGHBOUR OF VALUE: 690
+32 good neighbours
+2 awesome neighbours
+Admissible solution: 686 vs. Best neighbour: 690
+BEGIN ASCENT
+   best neighbour value: 690   current value: 686
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 692
+NEIGHBOUR OF VALUE: 694
+34 good neighbours
+2 awesome neighbours
+Admissible solution: 690 vs. Best neighbour: 694
+BEGIN ASCENT
+   best neighbour value: 694   current value: 690
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 701
+NEIGHBOUR OF VALUE: 704
+38 good neighbours
+2 awesome neighbours
+Admissible solution: 694 vs. Best neighbour: 704
+BEGIN ASCENT
+   best neighbour value: 704   current value: 694
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 707
+NEIGHBOUR OF VALUE: 712
+27 good neighbours
+2 awesome neighbours
+Admissible solution: 704 vs. Best neighbour: 712
+BEGIN ASCENT
+   best neighbour value: 712   current value: 704
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 714
+25 good neighbours
+1 awesome neighbours
+Admissible solution: 712 vs. Best neighbour: 714
+BEGIN ASCENT
+   best neighbour value: 714   current value: 712
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 721
+20 good neighbours
+1 awesome neighbours
+Admissible solution: 714 vs. Best neighbour: 721
+BEGIN ASCENT
+   best neighbour value: 721   current value: 714
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 727
+27 good neighbours
+1 awesome neighbours
+Admissible solution: 721 vs. Best neighbour: 727
+BEGIN ASCENT
+   best neighbour value: 727   current value: 721
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 732
+21 good neighbours
+1 awesome neighbours
+Admissible solution: 727 vs. Best neighbour: 732
+BEGIN ASCENT
+   best neighbour value: 732   current value: 727
+Created 224 neighbours
+4 good neighbours
+0 awesome neighbours
+Admissible solution: 732 vs. Best neighbour: 732
+BEGIN ASCENT
+   best neighbour value: 732   current value: 732
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+FINAL SOLUTION OF VALUE: 635
+================
+SOLUTION OF VALUE: 630
+Achieved in 32 iterations
+
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 633
+NEIGHBOUR OF VALUE: 637
+NEIGHBOUR OF VALUE: 639
+56 good neighbours
+3 awesome neighbours
+Admissible solution: 630 vs. Best neighbour: 639
+BEGIN ASCENT
+   best neighbour value: 639   current value: 630
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 642
+NEIGHBOUR OF VALUE: 646
+NEIGHBOUR OF VALUE: 648
+NEIGHBOUR OF VALUE: 649
+51 good neighbours
+4 awesome neighbours
+Admissible solution: 639 vs. Best neighbour: 649
+BEGIN ASCENT
+   best neighbour value: 649   current value: 639
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 652
+NEIGHBOUR OF VALUE: 656
+NEIGHBOUR OF VALUE: 658
+48 good neighbours
+3 awesome neighbours
+Admissible solution: 649 vs. Best neighbour: 658
+BEGIN ASCENT
+   best neighbour value: 658   current value: 649
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 665
+NEIGHBOUR OF VALUE: 667
+36 good neighbours
+2 awesome neighbours
+Admissible solution: 658 vs. Best neighbour: 667
+BEGIN ASCENT
+   best neighbour value: 667   current value: 658
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 671
+NEIGHBOUR OF VALUE: 674
+35 good neighbours
+2 awesome neighbours
+Admissible solution: 667 vs. Best neighbour: 674
+BEGIN ASCENT
+   best neighbour value: 674   current value: 667
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 678
+NEIGHBOUR OF VALUE: 679
+NEIGHBOUR OF VALUE: 680
+30 good neighbours
+3 awesome neighbours
+Admissible solution: 674 vs. Best neighbour: 680
+BEGIN ASCENT
+   best neighbour value: 680   current value: 674
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 684
+NEIGHBOUR OF VALUE: 688
+35 good neighbours
+2 awesome neighbours
+Admissible solution: 680 vs. Best neighbour: 688
+BEGIN ASCENT
+   best neighbour value: 688   current value: 680
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 690
+NEIGHBOUR OF VALUE: 695
+33 good neighbours
+2 awesome neighbours
+Admissible solution: 688 vs. Best neighbour: 695
+BEGIN ASCENT
+   best neighbour value: 695   current value: 688
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 698
+NEIGHBOUR OF VALUE: 700
+23 good neighbours
+2 awesome neighbours
+Admissible solution: 695 vs. Best neighbour: 700
+BEGIN ASCENT
+   best neighbour value: 700   current value: 695
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 703
+NEIGHBOUR OF VALUE: 704
+29 good neighbours
+2 awesome neighbours
+Admissible solution: 700 vs. Best neighbour: 704
+BEGIN ASCENT
+   best neighbour value: 704   current value: 700
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 708
+NEIGHBOUR OF VALUE: 710
+39 good neighbours
+2 awesome neighbours
+Admissible solution: 704 vs. Best neighbour: 710
+BEGIN ASCENT
+   best neighbour value: 710   current value: 704
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 712
+NEIGHBOUR OF VALUE: 713
+22 good neighbours
+2 awesome neighbours
+Admissible solution: 710 vs. Best neighbour: 713
+BEGIN ASCENT
+   best neighbour value: 713   current value: 710
+Created 224 neighbours
+11 good neighbours
+0 awesome neighbours
+Admissible solution: 713 vs. Best neighbour: 713
+BEGIN ASCENT
+   best neighbour value: 713   current value: 713
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+FINAL SOLUTION OF VALUE: 630
+================
+SOLUTION OF VALUE: 631
+Achieved in 32 iterations
+
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 632
+NEIGHBOUR OF VALUE: 638
+NEIGHBOUR OF VALUE: 640
+NEIGHBOUR OF VALUE: 641
+72 good neighbours
+4 awesome neighbours
+Admissible solution: 631 vs. Best neighbour: 641
+BEGIN ASCENT
+   best neighbour value: 641   current value: 631
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 642
+NEIGHBOUR OF VALUE: 648
+NEIGHBOUR OF VALUE: 650
+72 good neighbours
+3 awesome neighbours
+Admissible solution: 641 vs. Best neighbour: 650
+BEGIN ASCENT
+   best neighbour value: 650   current value: 641
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 651
+NEIGHBOUR OF VALUE: 657
+NEIGHBOUR OF VALUE: 658
+80 good neighbours
+3 awesome neighbours
+Admissible solution: 650 vs. Best neighbour: 658
+BEGIN ASCENT
+   best neighbour value: 658   current value: 650
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 665
+NEIGHBOUR OF VALUE: 666
+71 good neighbours
+2 awesome neighbours
+Admissible solution: 658 vs. Best neighbour: 666
+BEGIN ASCENT
+   best neighbour value: 666   current value: 658
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 673
+61 good neighbours
+1 awesome neighbours
+Admissible solution: 666 vs. Best neighbour: 673
+BEGIN ASCENT
+   best neighbour value: 673   current value: 666
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 675
+NEIGHBOUR OF VALUE: 676
+NEIGHBOUR OF VALUE: 677
+NEIGHBOUR OF VALUE: 679
+NEIGHBOUR OF VALUE: 680
+64 good neighbours
+5 awesome neighbours
+Admissible solution: 673 vs. Best neighbour: 680
+BEGIN ASCENT
+   best neighbour value: 680   current value: 673
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 682
+NEIGHBOUR OF VALUE: 684
+NEIGHBOUR OF VALUE: 686
+52 good neighbours
+3 awesome neighbours
+Admissible solution: 680 vs. Best neighbour: 686
+BEGIN ASCENT
+   best neighbour value: 686   current value: 680
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 690
+NEIGHBOUR OF VALUE: 692
+46 good neighbours
+2 awesome neighbours
+Admissible solution: 686 vs. Best neighbour: 692
+BEGIN ASCENT
+   best neighbour value: 692   current value: 686
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 693
+NEIGHBOUR OF VALUE: 699
+56 good neighbours
+2 awesome neighbours
+Admissible solution: 692 vs. Best neighbour: 699
+BEGIN ASCENT
+   best neighbour value: 699   current value: 692
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 701
+NEIGHBOUR OF VALUE: 705
+39 good neighbours
+2 awesome neighbours
+Admissible solution: 699 vs. Best neighbour: 705
+BEGIN ASCENT
+   best neighbour value: 705   current value: 699
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 707
+NEIGHBOUR OF VALUE: 711
+41 good neighbours
+2 awesome neighbours
+Admissible solution: 705 vs. Best neighbour: 711
+BEGIN ASCENT
+   best neighbour value: 711   current value: 705
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 713
+NEIGHBOUR OF VALUE: 717
+43 good neighbours
+2 awesome neighbours
+Admissible solution: 711 vs. Best neighbour: 717
+BEGIN ASCENT
+   best neighbour value: 717   current value: 711
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 719
+42 good neighbours
+1 awesome neighbours
+Admissible solution: 717 vs. Best neighbour: 719
+BEGIN ASCENT
+   best neighbour value: 719   current value: 717
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 722
+44 good neighbours
+1 awesome neighbours
+Admissible solution: 719 vs. Best neighbour: 722
+BEGIN ASCENT
+   best neighbour value: 722   current value: 719
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 726
+51 good neighbours
+1 awesome neighbours
+Admissible solution: 722 vs. Best neighbour: 726
+BEGIN ASCENT
+   best neighbour value: 726   current value: 722
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 727
+NEIGHBOUR OF VALUE: 728
+39 good neighbours
+2 awesome neighbours
+Admissible solution: 726 vs. Best neighbour: 728
+BEGIN ASCENT
+   best neighbour value: 728   current value: 726
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 733
+31 good neighbours
+1 awesome neighbours
+Admissible solution: 728 vs. Best neighbour: 733
+BEGIN ASCENT
+   best neighbour value: 733   current value: 728
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 736
+NEIGHBOUR OF VALUE: 740
+32 good neighbours
+2 awesome neighbours
+Admissible solution: 733 vs. Best neighbour: 740
+BEGIN ASCENT
+   best neighbour value: 740   current value: 733
+Created 224 neighbours
+NEIGHBOUR OF VALUE: 741
+22 good neighbours
+1 awesome neighbours
+Admissible solution: 740 vs. Best neighbour: 741
+BEGIN ASCENT
+   best neighbour value: 741   current value: 740
+Created 224 neighbours
+9 good neighbours
+0 awesome neighbours
+Admissible solution: 741 vs. Best neighbour: 741
+BEGIN ASCENT
+   best neighbour value: 741   current value: 741
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+END OF ASCENT
+FINAL SOLUTION OF VALUE: 631
+================

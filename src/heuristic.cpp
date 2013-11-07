@@ -37,11 +37,23 @@ void Heuristic::ascend() {
     cout << "   best neighbour value: " << best_neighbour_value_
          << "   current value: " << value_ << endl;
     if (best_neighbour_value_ > value_) {
-        best_neighbour_.back().initialise_neighbourhood();
-        best_neighbour_.back().empty_admissible_neighbourhood();
+        best_neighbour_.back().find_best_neighbour();
         best_neighbour_.back().ascend();
     }
     cout << "END OF ASCENT" << endl;
+}
+
+void Heuristic::find_best_neighbour() {
+    initialise_neighbourhood();
+    empty_neighbourhood();
+    empty_admissible_neighbourhood();
+}
+
+void Heuristic::empty_neighbourhood() {
+    vector<Instance>::iterator it = neighbourhood_.begin();
+    while (it != neighbourhood_.end()) {
+        neighbourhood_.erase(it);
+    }
 }
 
 void Heuristic::empty_admissible_neighbourhood() {
