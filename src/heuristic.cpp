@@ -24,7 +24,7 @@ void Heuristic::set_value(double value) {
     value_ = value;
 }
 
-void Heuristic::initialise_neighbourhood() {
+void Heuristic::create_neighbourhood() {
     Instance & i = instance_;
     vector<Instance> & n = neighbourhood_;
     if (neighbourhood_type_ == Swap) instance_.create_neighbourhood_swap(i, n);
@@ -48,7 +48,7 @@ void Heuristic::ascend(int & nb_iterations, double & real_value) {
 }
 
 void Heuristic::find_best_neighbour() {
-    initialise_neighbourhood();
+    create_neighbourhood();
     empty_neighbourhood();
     empty_admissible_neighbourhood();
 }

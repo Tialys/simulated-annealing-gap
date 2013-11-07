@@ -14,7 +14,7 @@ class Heuristic {
         void solve();
         void assign();
         
-        void initialise_neighbourhood();
+        void create_neighbourhood();
         void compute_neighbourhood_values();
         void empty_neighbourhood();
         void empty_admissible_neighbourhood();
