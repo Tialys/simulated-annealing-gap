@@ -14,7 +14,10 @@ class Instance {
     public:
         Instance(ifstream& instance_file);
         Instance(Instance & i, Agent & a1, Agent & a2);
-        void create_neighbourhood(Instance & base_instance,
+        Instance(Instance & i, Agent & a1, Agent & a2, int t);
+        void create_neighbourhood_swap(Instance & base_instance,
+                                  vector<Instance> & neighbourhood);
+        void create_neighbourhood_give(Instance & base_instance,
                                   vector<Instance> & neighbourhood);
 
         int get_nb_agents();

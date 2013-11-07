@@ -1,10 +1,12 @@
 #include "heuristic.h"
 
 Heuristic::Heuristic(Instance & instance,
-                     WeightFunction weight_function)
+                     WeightFunction weight_function,
+                     NeighbourhoodType neighbourhood_type)
                      :
                      instance_(instance),
-                     weight_function_(weight_function) {
+                     weight_function_(weight_function),
+                     neighbourhood_type_(neighbourhood_type) {
     value_ = 0.0;
     nb_iterations_ = 0;
     instance_.initialise_possible_tasks();
@@ -25,7 +27,8 @@ void Heuristic::set_value(double value) {
 void Heuristic::initialise_neighbourhood() {
     Instance & i = instance_;
     vector<Instance> & n = neighbourhood_;
-    instance_.create_neighbourhood(i, n);
+    if (neighbourhood_type_ == Swap) instance_.create_neighbourhood_swap(i, n);
+    if (neighbourhood_type_ == Give) instance_.create_neighbourhood_give(i, n);
     compute_neighbourhood_values();
 }
 
@@ -45,7 +48,9 @@ void Heuristic::ascend() {
 // - side effect: find best neighbourhood value
 void Heuristic::compute_neighbourhood_values() {
     for (Instance & neighbour : neighbourhood_) {
-        Heuristic h = Heuristic(neighbour, weight_function_);
+        Heuristic h = Heuristic(neighbour,
+                                weight_function_,
+                                neighbourhood_type_);
         if (h.admissible_solution()) {
             admissible_neighbourhood_.emplace_back(h);
         }

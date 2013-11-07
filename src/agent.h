@@ -34,7 +34,11 @@ class Agent {
         void remove_impossible_tasks();
         void show_possible_tasks();
         int get_nb_unassigned_tasks();
+
+        vector<int> assigned_tasks();
+
         void swap_assigned_tasks(Agent & a);
+        void give_task_to(Agent & a, int t);
         
         void find_min_weight_task(WeightFunction weight_function);
         void compute_desirability(WeightFunction weight_function);

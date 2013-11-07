@@ -9,42 +9,46 @@
 
 
 \begin{document}
-\section{L'heuristique}
+\section{Heuristique gloutonne}
 
-L'heuristique proposée ordonne les taches selon un poid. Plusieur méthode pour calculer le poid sont proposées :
-\begin{itemize} \item $weight1 (agent,tache) = gain_{agent,tache}$
+L'heuristique proposée ordonne les tâches selon leur poids. Plusieur méthodes
+de calcul du poids sont proposées :
 
-Ce poid permet d'assigner une tache à un agent en fesant en sorte que cela nous rapporte le plus possible.
-\item $weight2 (agent,tache) = ocupation_{agent, tache}$
+\begin{itemize}
+    \item $poids_1 (agent,tâche) = gain_{agent,tâche}$
+    La tâche de poids minimale sera donc la tâche de gain minimal.
 
-Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale.
-\item $weight3 (agent,tache) = \dfrac{ocupation_{agent,tache}}{capacity\_max_{agent}}$
+    \item $poids2 (agent,tâche) = occupation_{agent, tâche}$
+    La tâche de poids minimale sera celle d'occupation  minimale.
 
-Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale, en considérant l'occupation absolue.
-\item $weight4 (agent,tache) = \dfrac{-gain_{agent,tache}}{ocupation_{agent,tache}}$
+    \item $poids3 (agent,tâche) =
+        \dfrac{ocupation_{agent,tâche}}{capacité_{agent}}$
 
-Ce poid permet d'assigner une tache à un agent en considérant le ration gain/occupation.
+    
+    \item $poids4 (agent,tâche) =
+        \dfrac{-gain_{agent,tâche}}{occupation_{agent,tâche}}$
+
 \end{itemize}
 
-Le principe de l'heuristique est de considérer la différence entre la plus petite et la seconde plus petite valeure de poid pour chaque tache. Les taches sont assignées suivant l'ordre décroissant de cette différence.
-Pour cela on calcule la désirabilité de chaque tache si on l'assigne à l'agent le plus intéressant.
+Le principe de l'heuristique est de considérer la différence entre la plus petite et la seconde plus petite valeure de poids pour chaque tâche. Les tâches sont assignées suivant l'ordre décroissant de cette différence.
+Pour cela on calcule la désirabilité de chaque tâche si on l'assigne à l'agent le plus intéressant.
 
-$desirability_{task} = \max\limits_{agent}\min\limits_{autre\_agent}(weight(autre\_agent,task) - weight(agent,task))$
+$desirability_{task} = \max\limits_{agent}\min\limits_{autre\_agent}(poids(autre\_agent,task) - poids(agent,task))$
 
 Ou encore :
 
-$desirability_{task} = \min\limits_{autre\_agent}weight(autre\_agent,task) - weight(agent_{task},task)$
+$desirability_{task} = \min\limits_{autre\_agent}poids(autre\_agent,task) - poids(agent_{task},task)$
 
 Avec :
 
-$agent_{task} = \operatorname*{arg\,min}\limits_{agent}weight(agent,task)$
+$agent_{task} = \operatorname*{arg\,min}\limits_{agent}poids(agent,task)$
 
-Seul les agents pour lesquelles rajouter la tache ne fait pas dépasser leur capacité maximale sont considérés.
+Seul les agents pour lesquelles rajouter la tâche ne fait pas dépasser leur capacité maximale sont considérés.
 
 
 
 \fbox{\begin{algorithm}[H]
-\KwData{$Task$ L'ensemble des taches.}
+\KwData{$Task$ L'ensemble des tâches.}
 
 \Begin{
 \While {$Task \neq \varnothing$}
@@ -59,8 +63,8 @@ Seul les agents pour lesquelles rajouter la tache ne fait pas dépasser leur cap
 				$Agent_{task} = Agent_{task} \cup \left\{agent\right\}$
 			}
 		}
-		$agent_{task} = \operatorname*{arg\,min}\limits_{agent \in Agent_{task}}weight(agent,task)$
-		$desirability_{task} = \min\limits_{autre\_agent \in Agent_{task}}weight(autre\_agent,task) - weight(agent_{task},task)$
+		$agent_{task} = \operatorname*{arg\,min}\limits_{agent \in Agent_{task}}poids(agent,task)$
+		$desirability_{task} = \min\limits_{autre\_agent \in Agent_{task}}poids(autre\_agent,task) - poids(agent_{task},task)$
 	}
 	$max\_desirability\_task = \operatorname*{arg\,max}\limits_{task \in Task}desirability_{task}$
 	$assign(max\_desirability\_task)$
@@ -75,21 +79,21 @@ Seul les agents pour lesquelles rajouter la tache ne fait pas dépasser leur cap
 \end{algorithm}}
 
 
-La fonction assign permet de remplir les variables d'affecation $x_{i,j}$ en la mettant à 1 pour la tache ayant la désirabilité maximum et l'agent qui va avec cette tache. Elle met cette variable à 0 pour toute les autres taches associées avec ce même agent.
-L'algorithme s'arrète quand toute les taches ont été affectées. Si il n'y a plus d'agent ayant une capacité suffisante pour les taches restantes, l'algorithme ne trouve pas de solution admissible.
+La fonction assign permet de remplir les variables d'affecation $x_{i,j}$ en la mettant à 1 pour la tâche ayant la désirabilité maximum et l'agent qui va avec cette tâche. Elle met cette variable à 0 pour toute les autres tâches associées avec ce même agent.
+L'algorithme s'arrète quand toute les tâches ont été affectées. Si il n'y a plus d'agent ayant une capacité suffisante pour les tâches restantes, l'algorithme ne trouve pas de solution admissible.
 
 \section{Les voisinnages}
 
-Etant donné un solution $x_{i,j}\in\left\{0,1\right\}$, on peut considérer les solutions x' correspondant à assigner une tache à un autre agent que celui auquel elle est assigné. On a $(nb\_agent-1)*nb\_tache$ solution voisine. Toute les solutions obtenuent ne seront pas admissible, car un agent ayant déja atteint sa capacité maximal d'occupation se verra assigner une nouvelle tache.
+Etant donné un solution $x_{i,j}\in\left\{0,1\right\}$, on peut considérer les solutions x' correspondant à assigner une tâche à un autre agent que celui auquel elle est assigné. On a $(nb\_agent-1)*nb\_tâche$ solution voisine. Toute les solutions obtenuent ne seront pas admissible, car un agent ayant déja atteint sa capacité maximal d'occupation se verra assigner une nouvelle tâche.
 
 
 
-Si on considère X la matrice des $x_{i,j}$, les X' obtenuent par permution des lignes de X forme un voisinage. Cela reviens à échanger toutes les taches effectuées par deux agents. Toute les solutions obtenuent ne seront pas réalisable mais sauf dans des cas très particuliés, c'est a dire des instances dont il n'existe que très peu de solution réalisable de base, il devrait y avoir des solutions réalisables dans ce voisinage.
+Si on considère X la matrice des $x_{i,j}$, les X' obtenuent par permution des lignes de X forme un voisinage. Cela reviens à échanger toutes les tâches effectuées par deux agents. Toute les solutions obtenuent ne seront pas réalisable mais sauf dans des cas très particuliés, c'est a dire des instances dont il n'existe que très peu de solution réalisable de base, il devrait y avoir des solutions réalisables dans ce voisinage.
 
 
 
-Une autre idée de voisinage est de choisir une tache $j_{1}$, puis de chercher l'agent $i_{2}$ pour lequel le poid $weight(i_{2},j_{1})$ est minimum. Si l'agent $i_{2}$ est différent de celui auquel la tache est affectée $i_{1}$, chercher la tache $j_{2}$ parmis les taches effectuées par l'agent $i_{2}$ pour lequel le poid $weight(i_{1},j_{2})$ est minimum. Puis echanger $j_{1}$ et $j_{2}$.
-Cela revient à échanger deux taches en prenant en compte la désirabilité pour choisir l'agent qui effectura la première tache, et pour choisir la seconde tache avec laquelle la première tache sera échangée.
+Une autre idée de voisinage est de choisir une tâche $j_{1}$, puis de chercher l'agent $i_{2}$ pour lequel le poids $poids(i_{2},j_{1})$ est minimum. Si l'agent $i_{2}$ est différent de celui auquel la tâche est affectée $i_{1}$, chercher la tâche $j_{2}$ parmis les tâches effectuées par l'agent $i_{2}$ pour lequel le poids $poids(i_{1},j_{2})$ est minimum. Puis echanger $j_{1}$ et $j_{2}$.
+Cela revient à échanger deux tâches en prenant en compte la désirabilité pour choisir l'agent qui effectura la première tâche, et pour choisir la seconde tâche avec laquelle la première tâche sera échangée.
 
 
 
@@ -98,21 +102,21 @@ Cela revient à échanger deux taches en prenant en compte la désirabilité pou
 Voici l'instance utiliser pour les exemples de voisinage :
 
 Nombre d'agent : 3
-Nombre de tache : 6
+Nombre de tâche : 6
 Agent \#1
 Capacité d'occupation maximal : 12
-Gain par tache : 		5	7	7	6	8	5
-Occupation par tache :	2	5	5	7	2	5
+Gain par tâche : 		5	7	7	6	8	5
+Occupation par tâche :	2	5	5	7	2	5
 
 Agent \#2
 Capacité d'occupation maximal : 11
-Gain par tache : 		7	5	7	5	5	5
-Occupation par tache :	5	2	7	7	3	3
+Gain par tâche : 		7	5	7	5	5	5
+Occupation par tâche :	5	2	7	7	3	3
 
 Agent \#3
 Capacité d'occupation maximal : 10
-Gain par tache : 		5	6	5	7	7	5
-Occupation par tache :	7	6	2	7	8	3
+Gain par tâche : 		5	6	5	7	7	5
+Occupation par tâche :	7	6	2	7	8	3
 
 Solution réalisable de départ :
 

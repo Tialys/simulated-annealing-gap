@@ -7,7 +7,9 @@
 
 class Heuristic {
     public:
-        Heuristic(Instance & instance, WeightFunction weight_function);
+        Heuristic(Instance & instance,
+                  WeightFunction weight_function,
+                  NeighbourhoodType neighbourhood_type);
         
         void solve();
         void assign();
@@ -32,6 +34,7 @@ class Heuristic {
     private:
         Instance instance_;
         WeightFunction weight_function_;
+        NeighbourhoodType neighbourhood_type_;
         double value_;
         double best_neighbour_value_;
         int best_neighbour;

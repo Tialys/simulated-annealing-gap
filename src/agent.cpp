@@ -53,6 +53,14 @@ void Agent::show_possible_tasks() {
     cout << endl;
 }
 
+vector<int> Agent::assigned_tasks() {
+    vector<int> assigned_tasks;
+    for (int t : assigned_tasks_) {
+        assigned_tasks.emplace_back(t);
+    }
+    return assigned_tasks;
+}
+
 void Agent::show_assigned_tasks() {
     cout << "Agent " << id_ << ": ";
     cout << int(assigned_tasks_.size()) << " assigned tasks: ";
@@ -134,6 +142,16 @@ void Agent::swap_assigned_tasks(Agent & a) {
     }
 }
 
+void Agent::give_task_to(Agent & a, int t) {
+    vector<int>::iterator it = assigned_tasks_.begin();
+    while (it != assigned_tasks_.end()) {
+        if (*it == t)
+            assigned_tasks_.erase(it);
+        else it++;
+    }
+    a.assigned_tasks_.emplace_back(t);
+}
+
 bool Agent::satisfies_capacity_constraint() {
     double total_weight = 0.0;
     for (int task : assigned_tasks_) {
@@ -207,12 +225,12 @@ void Agent::find_min_weight_task(WeightFunction weight_function) {
 
     switch(weight_function)
     {
-        case Gain:
+        case MinusGain:
             min_weight_task = possible_tasks_[0];
-            min_weight = get_gain(min_weight_task);
+            min_weight = - get_gain(min_weight_task);
             for (int t : possible_tasks_)
             {
-                double current_weight = get_gain(t);
+                double current_weight = - get_gain(t);
                 if (current_weight < min_weight) {
                     min_weight_task = t;
                     min_weight = current_weight;
@@ -286,15 +304,15 @@ void Agent::compute_desirability(WeightFunction weight_function) {
 
     switch(weight_function)
     {
-    case Gain:
-        min_weight = get_gain(min_weight_task);
+    case MinusGain:
+        min_weight = - get_gain(min_weight_task);
         if (possible_tasks_[0] != min_weight_task)
-            desirability = get_gain(possible_tasks_[0]) - min_weight;
+            desirability = - get_gain(possible_tasks_[0]) - min_weight;
         else
-            desirability = get_gain(possible_tasks_[1]) - min_weight;
+            desirability = - get_gain(possible_tasks_[1]) - min_weight;
         for (int t : possible_tasks_) {
             if (t != min_weight_task) {
-                double current_desirability = get_gain(t)- min_weight;
+                double current_desirability = - get_gain(t)- min_weight;
                 if (current_desirability < desirability)
                     desirability = current_desirability;
             }
