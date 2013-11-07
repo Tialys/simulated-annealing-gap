@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[a4paper,12pt,titlepage]{report}
 
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
@@ -6,49 +6,73 @@
 \usepackage{amsmath}
 \usepackage[english]{algorithm2e}
 \usepackage{amssymb}
+\usepackage{array}
+
+
+
+
 
 
 \begin{document}
-\section{Heuristique gloutonne}
 
-L'heuristique proposée ordonne les tâches selon leur poids. Plusieur méthodes
-de calcul du poids sont proposées :
+ \begin{titlepage}
 
-\begin{itemize}
-    \item $poids_1 (agent,tâche) = gain_{agent,tâche}$
-    La tâche de poids minimale sera donc la tâche de gain minimal.
+\begin{center}
 
-    \item $poids2 (agent,tâche) = occupation_{agent, tâche}$
-    La tâche de poids minimale sera celle d'occupation  minimale.
 
-    \item $poids3 (agent,tâche) =
-        \dfrac{ocupation_{agent,tâche}}{capacité_{agent}}$
 
-    
-    \item $poids4 (agent,tâche) =
-        \dfrac{-gain_{agent,tâche}}{occupation_{agent,tâche}}$
 
+{ \huge \bfseries{Projet de Métaheuristique}}\\[0.4cm]
+
+
+% Bottom of the page
+\vfill
+{\large Paul Beaujean\\ Clément Vincent}
+
+\end{center}
+
+\end{titlepage}
+ \clearpage
+\newpage
+
+\tableofcontents \clearpage
+
+\chapter{L'heuristique}
+
+L'heuristique proposée ordonne les taches selon un poid. Plusieur méthode pour calculer le poid sont proposées :
+\begin{itemize} \item $weight1 (agent,tache) = gain_{agent,tache}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que cela nous rapporte le plus possible.
+\item $weight2 (agent,tache) = ocupation_{agent, tache}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale.
+\item $weight3 (agent,tache) = \dfrac{ocupation_{agent,tache}}{capacity\_max_{agent}}$
+
+Ce poid permet d'assigner une tache à un agent en fesant en sorte que l'occupation soit minimale, en considérant l'occupation absolue.
+\item $weight4 (agent,tache) = \dfrac{-gain_{agent,tache}}{ocupation_{agent,tache}}$
+
+Ce poid permet d'assigner une tache à un agent en considérant le ratio gain/occupation.
 \end{itemize}
 
-Le principe de l'heuristique est de considérer la différence entre la plus petite et la seconde plus petite valeure de poids pour chaque tâche. Les tâches sont assignées suivant l'ordre décroissant de cette différence.
-Pour cela on calcule la désirabilité de chaque tâche si on l'assigne à l'agent le plus intéressant.
+Le principe de l'heuristique est de considérer la différence entre la plus petite et la seconde plus petite valeure de poid pour chaque tache. Les taches sont assignées suivant l'ordre décroissant de cette différence.
+Pour cela on calcule la désirabilité de chaque tache si on l'assigne à l'agent le plus intéressant.
 
-$desirability_{task} = \max\limits_{agent}\min\limits_{autre\_agent}(poids(autre\_agent,task) - poids(agent,task))$
+$desirability_{task} = \max\limits_{agent}\min\limits_{autre\_agent}(weight(autre\_agent,task) - weight(agent,task))$
 
 Ou encore :
 
-$desirability_{task} = \min\limits_{autre\_agent}poids(autre\_agent,task) - poids(agent_{task},task)$
+$desirability_{task} = \min\limits_{autre\_agent}weight(autre\_agent,task) - weight(agent_{task},task)$
 
 Avec :
 
-$agent_{task} = \operatorname*{arg\,min}\limits_{agent}poids(agent,task)$
+$agent_{task} = \operatorname*{arg\,min}\limits_{agent}weight(agent,task)$
 
-Seul les agents pour lesquelles rajouter la tâche ne fait pas dépasser leur capacité maximale sont considérés.
+Seul les agents pour lesquels rajouter la tache ne fait pas dépasser leur capacité maximale sont considérés.
 
 
 
 \fbox{\begin{algorithm}[H]
-\KwData{$Task$ L'ensemble des tâches.}
+\KwData{$Task$ L'ensemble des taches.}
 
 \Begin{
 \While {$Task \neq \varnothing$}
@@ -63,8 +87,8 @@ Seul les agents pour lesquelles rajouter la tâche ne fait pas dépasser leur ca
 				$Agent_{task} = Agent_{task} \cup \left\{agent\right\}$
 			}
 		}
-		$agent_{task} = \operatorname*{arg\,min}\limits_{agent \in Agent_{task}}poids(agent,task)$
-		$desirability_{task} = \min\limits_{autre\_agent \in Agent_{task}}poids(autre\_agent,task) - poids(agent_{task},task)$
+		$agent_{task} = \operatorname*{arg\,min}\limits_{agent \in Agent_{task}}weight(agent,task)$
+		$desirability_{task} = \min\limits_{autre\_agent \in Agent_{task}}weight(autre\_agent,task) - weight(agent_{task},task)$
 	}
 	$max\_desirability\_task = \operatorname*{arg\,max}\limits_{task \in Task}desirability_{task}$
 	$assign(max\_desirability\_task)$
@@ -79,53 +103,411 @@ Seul les agents pour lesquelles rajouter la tâche ne fait pas dépasser leur ca
 \end{algorithm}}
 
 
-La fonction assign permet de remplir les variables d'affecation $x_{i,j}$ en la mettant à 1 pour la tâche ayant la désirabilité maximum et l'agent qui va avec cette tâche. Elle met cette variable à 0 pour toute les autres tâches associées avec ce même agent.
-L'algorithme s'arrète quand toute les tâches ont été affectées. Si il n'y a plus d'agent ayant une capacité suffisante pour les tâches restantes, l'algorithme ne trouve pas de solution admissible.
-
-\section{Les voisinnages}
-
-Etant donné un solution $x_{i,j}\in\left\{0,1\right\}$, on peut considérer les solutions x' correspondant à assigner une tâche à un autre agent que celui auquel elle est assigné. On a $(nb\_agent-1)*nb\_tâche$ solution voisine. Toute les solutions obtenuent ne seront pas admissible, car un agent ayant déja atteint sa capacité maximal d'occupation se verra assigner une nouvelle tâche.
+La fonction assign permet de remplir les variables d'affecations $x_{i,j}$ en la mettant à 1 pour la tache ayant la désirabilité maximum et l'agent qui va avec cette tache. Elle met cette variable à 0 pour toutes les autres taches associées avec ce même agent.
+L'algorithme s'arrète quand toutes les taches ont été affectées. Si il n'y a plus d'agent ayant une capacité suffisante pour les taches restantes, l'algorithme ne trouve pas de solution admissible.
 
 
 
-Si on considère X la matrice des $x_{i,j}$, les X' obtenuent par permution des lignes de X forme un voisinage. Cela reviens à échanger toutes les tâches effectuées par deux agents. Toute les solutions obtenuent ne seront pas réalisable mais sauf dans des cas très particuliés, c'est a dire des instances dont il n'existe que très peu de solution réalisable de base, il devrait y avoir des solutions réalisables dans ce voisinage.
+\chapter{Les voisinnages}
+
+Etant donné une solution $x_{i,j}\in\left\{0,1\right\}$, on peut considérer les solutions x' correspondant à assigner une tache à un autre agent que celui auquel elle est assignée. On a $(nb\_agent-1)*nb\_tache$ solutions voisines. Toutes les solutions obtenuent ne seront pas admissibles, car un agent ayant déja atteint sa capacité maximale d'occupation se verra assigner une nouvelle tache.
 
 
 
-Une autre idée de voisinage est de choisir une tâche $j_{1}$, puis de chercher l'agent $i_{2}$ pour lequel le poids $poids(i_{2},j_{1})$ est minimum. Si l'agent $i_{2}$ est différent de celui auquel la tâche est affectée $i_{1}$, chercher la tâche $j_{2}$ parmis les tâches effectuées par l'agent $i_{2}$ pour lequel le poids $poids(i_{1},j_{2})$ est minimum. Puis echanger $j_{1}$ et $j_{2}$.
-Cela revient à échanger deux tâches en prenant en compte la désirabilité pour choisir l'agent qui effectura la première tâche, et pour choisir la seconde tâche avec laquelle la première tâche sera échangée.
+Si on considère X la matrice des $x_{i,j}$, les X' obtenuent par permutions des lignes de X forment un voisinage. Cela revient à échanger toutes les taches effectuées par deux agents. Toutes les solutions obtenuent ne seront pas réalisables mais sauf dans des cas très particuliés, c'est a dire des instances dont il n'existe que très peu de solutions réalisables de base, il devrait y avoir des solutions réalisables dans ce voisinage.
 
 
 
-\section{Exemple de voisinage}
+
+
+Une autre idée de voisinage est de choisir une tache $j_{1}$, puis de chercher l'agent $i_{2}$ pour lequel le poid $weight(i_{2},j_{1})$ est minimum. Si l'agent $i_{2}$ est différent de celui auquel la tache est affectée $i_{1}$, chercher la tache $j_{2}$ parmis les taches effectuées par l'agent $i_{2}$ pour lequel le poid $weight(i_{1},j_{2})$ est minimum. Puis echanger $j_{1}$ et $j_{2}$.
+Cela revient à échanger deux taches en prenant en compte la désirabilité pour choisir l'agent qui effectura la première tache, et pour choisir la seconde tache avec laquelle la première tache sera échangée.
+
+
+\chapter{Exemples de voisinages}
+
+On utilisera le deuxième ensemble de voisinage.
 
 Voici l'instance utiliser pour les exemples de voisinage :
+Nombre d'agent : 3\\
+Nombre de tache : 6\\
 
-Nombre d'agent : 3
-Nombre de tâche : 6
-Agent \#1
-Capacité d'occupation maximal : 12
-Gain par tâche : 		5	7	7	6	8	5
-Occupation par tâche :	2	5	5	7	2	5
+Agent \#1\\
+Capacité d'occupation maximal : 12\\
+Gain par tache : 		5	7	7	6	8	5\\
+Occupation par tache :	2	5	5	7	2	5
 
-Agent \#2
-Capacité d'occupation maximal : 11
-Gain par tâche : 		7	5	7	5	5	5
-Occupation par tâche :	5	2	7	7	3	3
+Agent \#2\\
+Capacité d'occupation maximal : 11\\
+Gain par tache : 		7	5	7	5	5	5\\
+Occupation par tache :	5	2	7	7	3	3
 
-Agent \#3
-Capacité d'occupation maximal : 10
-Gain par tâche : 		5	6	5	7	7	5
-Occupation par tâche :	7	6	2	7	8	3
+Agent \#3\\
+Capacité d'occupation maximal : 10\\
+Gain par tache : 		5	6	5	7	7	5\\
+Occupation par tache :	7	6	2	7	8	3
 
-Solution réalisable de départ :
+$ $
+
+\section{Solution réalisable de départ}
 
 $x = \begin{pmatrix}
  1&0&0&0&1&0 \\
  0&1&0&0&0&1 \\
  0&0&1&1&0&0 \\
-\end{pmatrix}$
+\end{pmatrix}$\\
+Occupation de chaque agent : 4 5 9\\
+Valeur de la solution : $13 + 10 + 12 = 35$
 
+
+$ $
+
+
+
+
+
+
+
+
+
+\section{Premier ensemble de voisinage}
+
+On enlève la tache1 à l'agent1 et on l'ajoute à l'agent2.
+$x_{1} = \begin{pmatrix}
+ 0&0&0&0&1&0 \\
+ 1&1&0&0&0&1 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 2 10 9
+Valeur de la solution : 37
+
+On enlève la tache1 à l'agent1 et on l'ajoute à l'agent3.
+$x_{2} = \begin{pmatrix}
+ 0&0&0&0&1&0 \\
+ 0&1&0&0&0&1 \\
+ 1&0&1&1&0&0 \\
+\end{pmatrix}$\\
+Occupation de chaque agent : 2 5 16
+Solution non admissible
+
+On enlève la tache2 à l'agent2 et on l'ajoute à l'agent1.
+$x_{3} = \begin{pmatrix}
+ 1&1&0&0&1&0 \\
+ 0&0&0&0&0&1 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 9 3 9
+Valeur de la solution : 37
+
+On enlève la tache2 à l'agent2 et on l'ajoute à l'agent3.
+$x_{4} = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&0&0&0&0&1 \\
+ 0&1&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 4 3 15
+Solution non admissible
+
+On enlève la tache3 à l'agent3 et on l'ajoute à l'agent1.
+$x_{5} = \begin{pmatrix}
+ 1&0&1&0&1&0 \\
+ 0&1&0&0&0&1 \\
+ 0&0&0&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 9 5 7
+Valeur de la solution : 37
+
+On enlève la tache3 à l'agent3 et on l'ajoute à l'agent2.
+$x_{6} = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&1&1&0&0&1 \\
+ 0&0&0&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 4 12 7
+Solution non admissible
+
+On enlève la tache4 à l'agent3 et on l'ajoute à l'agent1.
+$x_{7} = \begin{pmatrix}
+ 1&0&0&1&1&0 \\
+ 0&1&0&0&0&1 \\
+ 0&0&1&0&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 11 5 2
+Valeur de la solution : 34
+
+On enlève la tache4 à l'agent3 et on l'ajoute à l'agent2.
+$x_{8} = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&1&0&1&0&1 \\
+ 0&0&1&0&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 4 12 2
+Solution non admissible
+
+On enlève la tache5 à l'agent1 et on l'ajoute à l'agent2.
+$x_{9} = \begin{pmatrix}
+ 1&0&0&0&0&0 \\
+ 0&1&0&0&1&1 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 2 8 9
+Valeur de la solution : 32
+
+On enlève la tache5 à l'agent1 et on l'ajoute à l'agent3.
+$x_{10} = \begin{pmatrix}
+ 1&0&0&0&0&0 \\
+ 0&1&0&0&0&1 \\
+ 0&0&1&1&1&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 2 5 17
+Solution non admissible
+
+On enlève la tache6 à l'agent2 et on l'ajoute à l'agent1.
+$x_{11} = \begin{pmatrix}
+ 1&0&0&0&1&1 \\
+ 0&1&0&0&0&0 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 9 2 9
+Valeur de la solution : 35
+
+On enlève la tache6 à l'agent2 et on l'ajoute à l'agent3.
+$x_{12} = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&1&0&0&0&0 \\
+ 0&0&1&1&0&1 \\
+\end{pmatrix}$
+Occupation de chaque agent : 4 2 12
+Solution non admissible
+
+\section{Deuxième ensemble de voisinage}
+
+$x_{1}$ est la solution issue de la permutation entre la première ligne et la deuxième ligne de la matrice x. Les taches effectuées par l'agent1 sont maintenant effectuées par l'agent2, et les taches effectuées par l'agent2 sont maintenant effectuées par l'agent1.
+$x_{1} = \begin{pmatrix}
+ 0&1&0&0&0&1 \\
+ 1&0&0&0&1&0 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$\\
+Occupation de chaque agent : 10 8 9
+Valeur de la solution : 36
+
+$x_{2}$ est la solution issue de la permutation entre la première ligne et la troisième ligne de la matrice x. Les taches effectuées par l'agent1 sont maintenant effectuées par l'agent3, et les taches effectuées par l'agent3 sont maintenant effectuées par l'agent1.
+$x_{2} = \begin{pmatrix}
+ 0&0&1&1&0&0 \\
+ 0&1&0&0&0&1 \\
+ 1&0&0&0&1&0 \\
+\end{pmatrix}$\\
+Occupation de chaque agent : 12 5 15
+Solution non admissible
+
+$x_{3}$ est la solution issue de la permutation entre la deuxième ligne et la troisième ligne de la matrice x. Les taches effectuées par l'agent2 sont maintenant effectuées par l'agent3, et les taches effectuées par l'agent3 sont maintenant effectuées par l'agent2.
+$x_{3} = \begin{pmatrix}
+ 1&0&0&0&1&0 \\
+ 0&0&1&1&0&0 \\
+ 0&1&0&0&0&1 \\
+\end{pmatrix}$\\
+Occupation de chaque agent : 4 14 9
+Solution non admissible
+
+\section{Troisième ensemble de voisinage}
+
+On prendra le gain comme critère pour l'exemple
+
+Pour la première tache, l'agent2 a un meilleur gain que l'agent1. La tache 1 va donc etre affectée à l'agent2. Parmis les taches de l'agent2, celle qui permet le plus de gain pour l'agent1 et la tache 2. Elle va donc etre affectée à l'agent1.
+$x_{1} = \begin{pmatrix}
+ 0&1&0&0&1&0 \\
+ 1&0&0&0&0&1 \\
+ 0&0&1&1&0&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 7 8 9
+Valeur de la solution : 39
+
+Pour la deuxième tache, l'agent1 a un meilleur gain que l'agent2. La tache 2 va donc etre affectée à l'agent 1. Parmis les taches de l'agent1, celle qui permet le plus de gain pour l'agent2 et la tache 1. Elle va donc etre affectée à l'agent2.
+On obtient la même solution que précedement.
+
+Pour la troisième tache, l'agent1 a un meilleur gain que l'agent3. La tache 3 va donc etre affectée à l'agent1. Parmis les taches de l'agent1, celle qui permet le plus de gain pour l'agent3 et la tache 5. Elle va donc etre affectée à l'agent3.
+$x_{2} = \begin{pmatrix}
+ 1&0&1&0&0&0 \\
+ 0&1&0&0&0&1 \\
+ 0&0&0&1&1&0 \\
+\end{pmatrix}$
+Occupation de chaque agent : 7 5 15
+Solution non admissible
+
+Pour les taches restantes, les agents auquels elles ont été affecté ont le meilleur gain. Il n'y a donc pas de changement à faire.
+
+\chapter{Solutions obtenues}
+
+Pour chaque instance, on donne la valeure de la solution obtenue arpès l'heuristique, puis après la monté, pour le poid3 et le poid4.
+Un X veux dire que l'heuristique ne trouve pas de solution réalisable, et un - signifie que la valeure n'a pas pu etre récupérée.
+
+\section{gap1}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap1 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-515-1 & 14 & X & X & 15 & 309 & 312 & 336  \\
+   I-515-2 & 14 & X & X & 14 & X & X & 327  \\
+ I-515-3 & 15 & 278 & 303 & 15 & 286 & 317 & 339 \\
+ I-515-4 & 15 & 297 & 319 & 14 & X & X & 341  \\
+ I-515-5 & 15 & 302 & 317 & 15 & 297 & 317 & 326  \\
+  \hline
+\end{tabular}
+
+\section{gap2}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap2 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-520-1 & 20 & 341 & 419 & 20 & 378 & 413 & 434  \\
+  I-520-2 & 19 & X & X & 19 & X & X & 436  \\
+  I-520-3 & 20 & 335 & 416 & 20 & 359 & 403 & 420  \\
+  I-520-4 & 20 & 358 & 396 & 20 & 348 & 348 & 419  \\
+  I-520-5 & 20 & 365 & 415 & 20 & 359 & 415 & 428  \\
+  \hline
+\end{tabular}
+
+\section{gap3}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap3 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-525-1 & 25 & 509 & 567 & 25 & 519 & 567 & 580  \\
+  I-525-2 & 25 & 483 & 536 & 25 & 489 & 532 & 564  \\
+  I-525-3 & 25 & 516 & 563 & 25 & 528 & 568 & 573  \\
+  I-525-4 & 25 & 496 & 538 & 25 & 528 & 532 & 570  \\
+  I-525-5 & 25 & 482 & 549 & 25 & 497 & 554 & 564  \\
+  \hline
+\end{tabular}
+
+\section{gap4}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap4 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-530-1 & 30 & 528 & 635 & 30 & 572 & 639 & 656  \\
+  I-530-2 & 30 & 523 & 601 & 30 & 582 & 603 & 644  \\
+  I-530-3 & 30 & 559 & 651 & 30 & 600 & 627 & 673  \\
+  I-530-4 & 30 & 544 & 621 & 30 & 552 & 619 & 647  \\
+  I-530-5 & 30 & 556 & 647 & 30 & 585 & 647 & 664  \\
+  \hline
+\end{tabular}
+
+\section{gap5}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap5 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-824-1 & 24 & 478 & 556 & 24 & 486 & 554 & 563  \\
+  I-824-2 & 24 & 450 & 529 & 24 & 481 & 534 & 558  \\
+  I-824-3 & 24 & 458 & 545 & 24 & 470 & 547 & 564  \\
+  I-824-4 & 24 & 461 & 562 & 24 & 475 & 552 & 568  \\
+  I-824-5 & 24 & 479 & 541 & 24 & 471 & 528 & 559  \\
+  \hline
+\end{tabular}
+
+\section{gap6}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap6 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-832-1 & 32 & 637 & 753 & 32 & 659 & 748 & 761  \\
+  I-832-2 & 32 & 640 & 739 & 32 & 677 & 748 & 759  \\
+  I-832-3 & 32 & 629 & 728 & 32 & 635 & 732 & 758  \\
+  I-832-4 & 32 & 640 & 735 & 32 & 630 & 713 & 752  \\
+  I-832-5 & 32 & 638 & 720 & 32 & 631 & 741 & 747  \\
+  \hline
+\end{tabular}
+
+\section{gap7}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap7 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-840-1 & 40 & 797 & 927 & 40 & 795 & 913 & 942  \\
+  I-840-2 & 40 & 820 & 938 & 40 & 823 & 888 & 949  \\
+  I-840-3 & 40 & 815 & 954 & 40 & 848 & 951 & 968  \\
+  I-840-4 & 40 & 801 & 914 & 40 & 801 & 900 & 945  \\
+  I-840-5 & 40 & 793 & 950 & 40 & 844 & 925 & 961  \\
+  \hline
+\end{tabular}
+
+\section{gap8}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap8 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-848-1 & 48 & 978 & 1104 & 48 & 978 & 1092 & 1133  \\
+  I-848-2 & 48 & 964 & 1100 & 48 & 977 & 1064 & 1134  \\
+  I-848-3 & 48 & 964 & 1110 & 48 & 994 & 1106 & 1141  \\
+  I-848-4 & 48 & 958 & 1049 & 48 & 980 & 1063 & 1117  \\
+  I-848-5 & 48 & 963 & 1074 & 48 & 1018 & 1064 & 1127  \\
+  \hline
+\end{tabular}
+
+\section{gap9}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap9 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-1030-1 & 30 & 577 & 684 & 30 & 606 & 675 & 709  \\
+  I-1030-2 & 30 & 590 & 693 & 30 & 611 & 688 & 717  \\
+  I-1030-3 & 30 & 629 & 684 & 30 & 594 & 675 & 712  \\
+  I-1030-4 & 30 & 638 & 709 & 30 & 631 & 697 & 723  \\
+  I-1030-5 & 30 & 603 & 684 & 30 & 592 & 668 & 706  \\
+  \hline
+\end{tabular}
+
+\section{gap10}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap10 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-1040-1 & 26 & 809 & 945 & 28 & 841 & 944 & 958  \\
+  I-1040-2 & 19 & 837 & 936 & 19 & 803 & 924 & 963  \\
+  I-1040-3 & 21 & 827 & 932 & 14 & 847 & 913 & 960  \\
+  I-1040-4 & 24 & 770 & 921 & 17 & 808 & 910 & 947  \\
+  I-1040-5 & 21 & 806 & 923 & 23 & 808 & 921 & 947  \\
+  \hline
+\end{tabular}
+
+\section{gap11}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap11 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-1050-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1139  \\
+  I-1050-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1178  \\
+  I-1050-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1195  \\
+  I-1050-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1171  \\
+  I-1050-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1171  \\
+  \hline
+\end{tabular}
+
+\section{gap12}
+
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+  \hline
+  gap12 & nb\_it & poid3 & montée & nb\_it & poid4 & montée & opt \\
+  \hline
+  I-1060-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1451  \\
+  I-1060-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1449  \\
+  I-1060-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1433  \\
+  I-1060-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1447  \\
+  I-1060-1 & 40 & 809 & 945 & 28 & 841 & 944 & 1446  \\
+  \hline
+\end{tabular}
 
 \end{document}
 
