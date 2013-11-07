@@ -70,6 +70,7 @@ void Heuristic::compute_neighbourhood_values() {
     best_neighbour_value_ = best_neighbour_value;
     
     cout << int(admissible_neighbourhood_.size()) << " good neighbours" << endl;
+    cout << int(best_neighbour_.size()) << " awesome neighbours" << endl;
     cout << "Admissible solution: " << value_ 
          << " vs. Best neighbour: " << best_neighbour_value_ << endl;
 }
