@@ -16,6 +16,7 @@ class Heuristic {
         
         void initialise_neighbourhood();
         void compute_neighbourhood_values();
+        void empty_admissible_neighbourhood();
         void ascend();
 
         int get_nb_iterations();
