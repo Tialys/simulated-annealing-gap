@@ -9,29 +9,64 @@ Heuristic::Heuristic(Instance & instance,
     nb_iterations_ = 0;
     instance_.initialise_possible_tasks();
     vector<Instance> neighbourhood_;
-    vector<Heuristic> heuristic_neighbour_;
+    vector<Heuristic> admissible_neighbourhood_;
+    vector<Heuristic> best_neighbour_;
+}
+
+double Heuristic::value() {
+    value_ = instance_.value();
+    return value_;
+}
+
+void Heuristic::set_value(double value) {
+    value_ = value;
 }
 
 void Heuristic::initialise_neighbourhood() {
     Instance & i = instance_;
     vector<Instance> & n = neighbourhood_;
     instance_.create_neighbourhood(i, n);
+    compute_neighbourhood_values();
 }
 
+void Heuristic::ascend() {
+    cout << "BEGIN ASCENT" << endl;
+    cout << "   best neighbour value: " << best_neighbour_value_
+         << "   current value: " << value_ << endl;
+    if (best_neighbour_value_ > value_) {
+        best_neighbour_.back().compute_neighbourhood_values();
+        best_neighbour_.back().ascend();
+    }
+    cout << "END OF ASCENT" << endl;
+}
+
+// Generate admissible neighbourhood around current instance
+// - side effect: find best neighbour
+// - side effect: find best neighbourhood value
 void Heuristic::compute_neighbourhood_values() {
     for (Instance & neighbour : neighbourhood_) {
         Heuristic h = Heuristic(neighbour, weight_function_);
-        //h.show_information();
         if (h.admissible_solution()) {
-            //cout << "GOOD NEIGHBOUR HERE" << endl;
-            heuristic_neighbour_.emplace_back(h);
+            admissible_neighbourhood_.emplace_back(h);
         }
     }
-    for (Heuristic & h : heuristic_neighbour_) {
-        //h.show_information();
-        h.show_value();
+    
+    // Put in best_neighbour_ every neighbour with superior value
+    double best_neighbour_value = value_; 
+    for (Heuristic & neighbour : admissible_neighbourhood_) {
+        //cout << "Current best neighbour value: " << best_neighbour_value 
+        //     << " vs. value of current neighbour: " << neighbour.value() << endl;
+        if (neighbour.value() > best_neighbour_value) {
+            cout << "NEIGHBOUR OF VALUE: " << neighbour.value() << endl;
+            best_neighbour_value = neighbour.value();
+            best_neighbour_.emplace_back(neighbour);
+        }
     }
-    cout << int(heuristic_neighbour_.size()) << " good neighbours" << endl;
+    best_neighbour_value_ = best_neighbour_value;
+    
+    cout << int(admissible_neighbourhood_.size()) << " good neighbours" << endl;
+    cout << "Admissible solution: " << value_ 
+         << " vs. Best neighbour: " << best_neighbour_value_ << endl;
 }
 
 void Heuristic::solve() {
@@ -40,15 +75,7 @@ void Heuristic::solve() {
         assign();
         nb_iterations++;
     }
-    set_nb_iterations(nb_iterations);
-}
-
-void Heuristic::set_nb_iterations(int nb_iterations) {
     nb_iterations_ = nb_iterations;
-}
-
-int Heuristic::get_nb_iterations() {
-    return nb_iterations_;
 }
 
 void Heuristic::assign() {
@@ -58,10 +85,6 @@ void Heuristic::assign() {
 
 bool Heuristic::remaining_tasks() {
     return instance_.remaining_tasks();
-}
-
-void Heuristic::show_assignment() {
-    instance_.show_assignment();
 }
 
 bool Heuristic::admissible_solution() {
@@ -76,10 +99,14 @@ bool Heuristic::satisfies_capacity_constraint() {
     return instance_.satisfies_capacity_constraint();
 }
 
-void Heuristic::show_value() {
-    value_ = instance_.value();
-    cout << "SOLUTION OF VALUE: " << value_ << endl;
+int Heuristic::get_nb_iterations() {
+    return nb_iterations_;
 }
+
+void Heuristic::show_assignment() {
+    instance_.show_assignment();
+}
+
 
 void Heuristic::show_solution() {
     instance_.show_solution();

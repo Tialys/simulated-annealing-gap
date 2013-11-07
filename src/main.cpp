@@ -35,20 +35,19 @@ int main(int argc, char* argv[]) {
                 heuristic.push_back(h);
             }
             for (Heuristic & h : heuristic) {
-                //h.show_solution();
                 h.solve();
 
-                //h.show_solution();
-                h.show_value();
-                //h.show_information();
+                cout << "SOLUTION OF VALUE: " << h.value() << endl;
                 cout << "Achieved in " << h.get_nb_iterations() << " iterations" << endl;
+                cout << endl;
 
                 if (h.admissible_solution()) {
                     h.initialise_neighbourhood();
-                    h.compute_neighbourhood_values();
+                    h.ascend();
                 } else {
                     cout << "               NON ADMISSIBLE SOLUTION" << endl;
                 }
+                cout << "================" << endl;
             }
         } 
     }
