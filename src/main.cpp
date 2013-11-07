@@ -51,9 +51,14 @@ int main(int argc, char* argv[]) {
                 cout << endl;
 
                 if (h.admissible_solution()) {
+                    int nb_iterations = 0;
+                    double real_value = 0.0;
                     h.initialise_neighbourhood();
-                    h.ascend();
-                    cout << "FINAL SOLUTION OF VALUE: " << h.value() << endl;
+                    h.ascend(nb_iterations, real_value);
+                    cout << endl;
+                    cout << "FINAL SOLUTION OF VALUE: " << real_value 
+                         << " FOUND IN " << nb_iterations << " ITERATIONS"
+                         << endl;
                 } else {
                     cout << "               NON ADMISSIBLE SOLUTION" << endl;
                 }

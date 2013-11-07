@@ -20,7 +20,7 @@ class Heuristic {
         void empty_admissible_neighbourhood();
 
         void find_best_neighbour();
-        void ascend();
+        void ascend(int & nb_iterations, double & real_value);
 
         int get_nb_iterations();
         double value();

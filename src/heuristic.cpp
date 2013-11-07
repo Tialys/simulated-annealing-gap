@@ -32,15 +32,19 @@ void Heuristic::initialise_neighbourhood() {
     compute_neighbourhood_values();
 }
 
-void Heuristic::ascend() {
-    cout << "BEGIN ASCENT" << endl;
-    cout << "   best neighbour value: " << best_neighbour_value_
-         << "   current value: " << value_ << endl;
+void Heuristic::ascend(int & nb_iterations, double & real_value) {
+    //cout << "BEGIN ASCENT" << endl;
+    //cout << "   best neighbour value: " << best_neighbour_value_
+    //     << "   current value: " << value_ << endl;
     if (best_neighbour_value_ > value_) {
         best_neighbour_.back().find_best_neighbour();
-        best_neighbour_.back().ascend();
+
+        nb_iterations++;
+        real_value = best_neighbour_value_;
+
+        best_neighbour_.back().ascend(nb_iterations, real_value);
     }
-    cout << "END OF ASCENT" << endl;
+    //cout << "END OF ASCENT" << endl;
 }
 
 void Heuristic::find_best_neighbour() {
@@ -82,17 +86,18 @@ void Heuristic::compute_neighbourhood_values() {
         //cout << "Current best neighbour value: " << best_neighbour_value 
         //     << " vs. value of current neighbour: " << neighbour.value() << endl;
         if (neighbour.value() > best_neighbour_value) {
-            cout << "NEIGHBOUR OF VALUE: " << neighbour.value() << endl;
+            //cout << "NEIGHBOUR OF VALUE: " << neighbour.value() << endl;
             best_neighbour_value = neighbour.value();
             best_neighbour_.emplace_back(neighbour);
         }
     }
     best_neighbour_value_ = best_neighbour_value;
+    cout << "Best neighbour of value: " << best_neighbour_value_ << endl;
     
-    cout << int(admissible_neighbourhood_.size()) << " good neighbours" << endl;
-    cout << int(best_neighbour_.size()) << " awesome neighbours" << endl;
-    cout << "Admissible solution: " << value_ 
-         << " vs. Best neighbour: " << best_neighbour_value_ << endl;
+    //cout << int(admissible_neighbourhood_.size()) << " good neighbours" << endl;
+    //cout << int(best_neighbour_.size()) << " awesome neighbours" << endl;
+    //cout << "Admissible solution: " << value_ 
+    //     << " vs. Best neighbour: " << best_neighbour_value_ << endl;
 }
 
 void Heuristic::solve() {

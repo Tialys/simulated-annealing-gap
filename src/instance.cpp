@@ -31,7 +31,7 @@ void Instance::create_neighbourhood_swap(Instance & base_instance,
             }
         }
     }
-    cout << "Created " << nb_neighbourhoods << " neighbours" << endl;
+    //cout << "Created " << nb_neighbourhoods << " neighbours" << endl;
 }
 
 // GENERATE NEIGHBOURHOOD (instances with tasks swapped between two agents)
@@ -49,7 +49,7 @@ void Instance::create_neighbourhood_give(Instance & base_instance,
             }
         }
     }
-    cout << "Created " << nb_neighbourhoods << " neighbours" << endl;
+    //cout << "Created " << nb_neighbourhoods << " neighbours" << endl;
 }
 
 // Instance file format:
